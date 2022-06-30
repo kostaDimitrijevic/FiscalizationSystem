@@ -8,7 +8,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  uri = "http://localhost:4200";
+  uri = "http://localhost:4000";
 
   login(username, password)
   {

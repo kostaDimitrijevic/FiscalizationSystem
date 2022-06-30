@@ -10,18 +10,21 @@
                     <label class="form-label">Username</label>
                     <br>
                     <input class="form-control" formControlName="username" type="text" 
-                    [ngClass]="{'is-invalid' : loginForm.controls['username'].touched && !loginForm.controls['username'].valid}" [(ngModel)]="username">
+                    [ngClass]="{'is-invalid' : (loginForm.controls['username'].touched && !loginForm.controls['username'].valid) || errorDisplay}" [(ngModel)]="username">             
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Password</label>
                     <br>
-                    <input class="form-control" formControlName="password" type="text"
-                    [ngClass]="{'is-invalid' : loginForm.controls['password'].touched && !loginForm.controls['password'].valid,
-                                'is-valid' : loginForm.controls['password'].valid}" [(ngModel)]="password">    
+                    <input class="form-control" formControlName="password" type="password"
+                    [ngClass]="{'is-invalid' : (loginForm.controls['password'].touched && !loginForm.controls['password'].valid) || errorDisplay}" [(ngModel)]="password">
                 </div>
 
-                <button (click)="login()" type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary">Login</button>
+
+                <div *ngIf="errorDisplay" class="invalid-feedback d-block">
+                    Invalid username or password!
+                </div>    
             </form>
         </div>    
     </div>

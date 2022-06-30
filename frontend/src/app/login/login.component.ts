@@ -22,18 +22,26 @@ export class LoginComponent implements OnInit {
   username: string;
   password: string;
 
-  message: string;
+  errorDisplay = false;
 
   login(){
     this.userService.login(this.username, this.password).subscribe((user: User) => {
-      
+      if(user){
+        this.errorDisplay = false;
+        if(user.type=="kupac"){
+          alert("USPESNO")
+        }
+      }
+      else {
+        this.errorDisplay = true;
+      }
     })
   }
 
   createLoginForm(){
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$@!%&*?])[A-Za-z\\d#$@!%&*?]{8,12}$')])
+      password: new FormControl('', [Validators.required])
     });
   }
 
