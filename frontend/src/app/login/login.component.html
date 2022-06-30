@@ -20,12 +20,16 @@
                     [ngClass]="{'is-invalid' : (loginForm.controls['password'].touched && !loginForm.controls['password'].valid) || errorDisplay}" [(ngModel)]="password">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-block btn-primary">Login</button>
 
                 <div *ngIf="errorDisplay" class="invalid-feedback d-block">
                     Invalid username or password!
                 </div>    
             </form>
-        </div>    
+            <br>
+            <div class="linkToReg">
+                <a href="http://localhost:4200/registerCompany">Don't have an account? Register here!</a>
+            </div>  
+        </div>
     </div>
 </div>

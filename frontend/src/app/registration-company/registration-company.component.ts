@@ -28,11 +28,14 @@ export class RegistrationCompanyComponent implements OnInit {
   email: String;
   companyName: String;
   country: String;
+  city: String;
   zipCode: String;
   street: String;
   streetNumber: String; 
   PIB: String;
   registrationNumber: number;
+
+  passwordMismatch = false;
 
   createRegisterForm(){
     this.registerForm = new FormGroup({
@@ -45,6 +48,7 @@ export class RegistrationCompanyComponent implements OnInit {
       email : new FormControl('', [Validators.required, Validators.email]),
       companyName : new FormControl('', [Validators.required]),
       country : new FormControl('', [Validators.required]),
+      city : new FormControl('', [Validators.required]),
       zipCode : new FormControl('', [Validators.required]),
       street : new FormControl('', [Validators.required]),
       streetNumber : new FormControl('', [Validators.required]),
@@ -54,6 +58,20 @@ export class RegistrationCompanyComponent implements OnInit {
   }
 
   register(){
+    let street = this.street + " " + this.streetNumber;
+    alert(this.password + "," + this.confirmPassword)
+    //Pas$w0rd
+    if(this.password != this.confirmPassword){
+      alert("USAO")
+      this.passwordMismatch = true;
+    }
+    else{
+      alert("USAO")
+      this.passwordMismatch = false;
+      this.userService.register(this.firstname, this.lastname, this.username, this.password, this.phoneNumber, this.email, this.companyName, this.country,
+        this.city, this.zipCode, street, this.PIB, this.registrationNumber);
+
+    }
 
   }
 }
