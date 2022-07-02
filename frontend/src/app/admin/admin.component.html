@@ -1,0 +1,215 @@
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <h3 class="border-0">Confirm registrations</h3>
+            <br>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="p-2 px-3 text-uppercase">Company name</div>
+                        </th>
+                        <th>
+                            <div class="p-2 px-3 text-uppercase">Username</div>
+                        </th>
+                        <th>
+                            <div class="p-2 px-3 text-uppercase">Status</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let company of companies">
+                        <td>{{company.companyName}}</td>
+                        <td>{{company.username}}</td>
+                        <td>
+                            <button (click)="accept(company.username)" class="btn btn-dark mr=5">Accept</button>
+                            <button (click)="decline(company.username)" class="btn btn-dark ml-3">Decline</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-8">
+            <h3>Add new company</h3>
+            <form [formGroup]="registerForm" (ngSubmit)="register()">
+
+                <div class="form-group">
+                    <label class="form-label">Firstname</label>
+                    <br>
+                    <input class="form-control" formControlName="firstname" type="text"
+                    [ngClass]="{'is-invalid' : registerForm.controls['firstname'].touched && !registerForm.controls['firstname'].valid}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['firstname'].valid}"
+                    [(ngModel)]="firstname">
+                    <div *ngIf="!registerForm.controls['firstname'].valid && registerForm.controls['firstname'].touched" class="invalid-feedback d-block">
+                        You must enter your firstname!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Lastname</label>
+                    <br>
+                    <input class="form-control" formControlName="lastname" type="text"
+                    [ngClass]="{'is-invalid' : registerForm.controls['lastname'].touched && !registerForm.controls['lastname'].valid}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['lastname'].valid}"
+                    [(ngModel)]="lastname">
+                    <div *ngIf="!registerForm.controls['lastname'].valid && registerForm.controls['lastname'].touched" class="invalid-feedback d-block">
+                        You must enter your lastname!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <br>
+                    <input class="form-control" formControlName="username" type="text"
+                    [ngClass]="{'is-invalid' : registerForm.controls['username'].touched && !registerForm.controls['username'].valid}"
+                    [ngClass]="{ 'is-valid' :registerForm.controls['username'].valid}"
+                    [(ngModel)]="username">
+                    <div *ngIf="!registerForm.controls['username'].valid && registerForm.controls['username'].touched" class="invalid-feedback d-block">
+                        You must enter your username!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <br>
+                    <input class="form-control" formControlName="password" type="password"
+                    [class.is-invalid] = "registerForm.controls['password'].touched && !registerForm.controls['password'].valid"
+                    [class.is-valid] = "registerForm.controls['password'].valid"
+                    [(ngModel)]="password">
+                    <div *ngIf="!registerForm.controls['password'].valid && registerForm.controls['password'].touched" class="invalid-feedback d-block">
+                        Password must contain special sign, at least one number and big letter. Length of password is minimum 8 and maximum 12!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm password</label>
+                    <br>
+                    <input class="form-control" formControlName="confirmPassword" type="password"
+                    [ngClass]="{ 'is-invalid' : (registerForm.controls['confirmPassword'].touched && !registerForm.controls['confirmPassword'].valid) || passwordMismatch}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['confirmPassword'].valid && !passwordMismatch}"
+                    [(ngModel)]="confirmPassword">
+                    <div *ngIf="!registerForm.controls['confirmPassword'].valid && registerForm.controls['confirmPassword'].touched" class="invalid-feedback d-block">
+                        Password must contain special sign, at least one number and big letter. Length of password is minimum 8 and maximum 12!
+                    </div>
+                    <div *ngIf="passwordMismatch" class="invalid-feedback d-block">
+                        Passwords must match!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone number</label>
+                    <br>
+                    <input class="form-control" formControlName="phoneNumber" type="text"
+                    [ngClass]="{ 'is-invalid' : registerForm.controls['phoneNumber'].touched && !registerForm.controls['phoneNumber'].valid}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['phoneNumber'].valid}"
+                    [(ngModel)]="phoneNumber">
+                    <div *ngIf="!registerForm.controls['phoneNumber'].valid && registerForm.controls['phoneNumber'].touched" class="invalid-feedback d-block">
+                        You must enter your phone number!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <br>
+                    <input class="form-control" formControlName="email" type="email"
+                    [ngClass]="{ 'is-invalid' : registerForm.controls['email'].touched && !registerForm.controls['email'].valid}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['email'].valid}"
+                    [(ngModel)]="email">
+                    <div *ngIf="!registerForm.controls['email'].valid && registerForm.controls['email'].touched" class="invalid-feedback d-block">
+                        You must enter your email, and It needs to be in the right format!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Company name</label>
+                    <br>
+                    <input class="form-control" formControlName="companyName" type="text"
+                    [ngClass]="{ 'is-invalid' : registerForm.controls['companyName'].touched && !registerForm.controls['companyName'].valid}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['companyName'].valid}"
+                    [(ngModel)]="companyName">
+                    <div *ngIf="!registerForm.controls['companyName'].valid && registerForm.controls['companyName'].touched" class="invalid-feedback d-block">
+                        You must enter your companies name!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Country</label>
+                    <br>
+                    <input class="form-control" formControlName="country" type="text"
+                    [ngClass]="{ 'is-invalid' : registerForm.controls['country'].touched && !registerForm.controls['country'].valid}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['country'].valid}"
+                    [(ngModel)]="country">
+                    <div *ngIf="!registerForm.controls['country'].valid && registerForm.controls['country'].touched" class="invalid-feedback d-block">
+                        You must enter your countries name!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">City</label>
+                    <br>
+                    <input class="form-control" formControlName="city" type="text"
+                    [ngClass]="{ 'is-invalid' : registerForm.controls['city'].touched && !registerForm.controls['city'].valid}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['city'].valid}"
+                    [(ngModel)]="city">
+                    <div *ngIf="!registerForm.controls['city'].valid && registerForm.controls['city'].touched" class="invalid-feedback d-block">
+                        You must enter your cities name!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Zip Code</label>
+                    <br>
+                    <input class="form-control" formControlName="zipCode" type="text"
+                    [ngClass]="{ 'is-invalid' : registerForm.controls['zipCode'].touched && !registerForm.controls['zipCode'].valid}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['zipCode'].valid}"
+                    [(ngModel)]="zipCode">
+                    <div *ngIf="!registerForm.controls['zipCode'].valid && registerForm.controls['zipCode'].touched" class="invalid-feedback d-block">
+                        You must enter your zip code!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Street</label>
+                    <br>
+                    <input class="form-control" formControlName="street" type="text"
+                    [ngClass]="{ 'is-invalid' : registerForm.controls['street'].touched && !registerForm.controls['street'].valid}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['street'].valid}"
+                    [(ngModel)]="street">
+                    <div *ngIf="!registerForm.controls['street'].valid && registerForm.controls['street'].touched" class="invalid-feedback d-block">
+                        You must enter your streets name!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Street number</label>
+                    <br>
+                    <input class="form-control" formControlName="streetNumber" type="text"
+                    [ngClass]="{ 'is-invalid' : registerForm.controls['streetNumber'].touched && !registerForm.controls['streetNumber'].valid}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['streetNumber'].valid}"
+                    [(ngModel)]="streetNumber">
+                    <div *ngIf="!registerForm.controls['streetNumber'].valid && registerForm.controls['streetNumber'].touched" class="invalid-feedback d-block">
+                        You must enter your streets number!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">PIB</label>
+                    <br>
+                    <input class="form-control" formControlName="PIB" type="text"
+                    [class.is-invalid] = "registerForm.controls['PIB'].touched && !registerForm.controls['PIB'].valid"
+                    [class.is-valid] = "registerForm.controls['PIB'].valid"
+                    [(ngModel)]="PIB">
+                    <div *ngIf="!registerForm.controls['PIB'].valid && registerForm.controls['PIB'].touched" class="invalid-feedback d-block">
+                        You must enter your PIB number, and It needs to be exacly 9 numbers, but it can not start with 0!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Registration Number</label>
+                    <br>
+                    <input class="form-control" formControlName="registrationNumber" type="text"
+                    [ngClass]="{ 'is-invalid' : registerForm.controls['registrationNumber'].touched && !registerForm.controls['registrationNumber'].valid}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['registrationNumber'].valid}"
+                    [(ngModel)]="registrationNumber">
+                    <div *ngIf="!registerForm.controls['registrationNumber'].valid && registerForm.controls['registrationNumber'].touched" class="invalid-feedback d-block">
+                        You must enter your registration number, It can't have alphabet characters!
+                    </div>
+                </div>
+                <div>
+                    <button [disabled]="!registerForm.valid && !passwordMismatch" type="submit" class="btn btn-lg btn-block btn-success">Add company</button>
+                </div>         
+            </form>
+        </div>
+    </div>
+</div>

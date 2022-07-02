@@ -45,6 +45,9 @@ let Company = new Schema({
     registrationNumber: {
         type: Number
     },
+    status: {
+        type: Boolean
+    }
 });
 exports.default = mongoose_1.default.model('Company', Company, 'companies');
 //# sourceMappingURL=company.js.map

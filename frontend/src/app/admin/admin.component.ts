@@ -1,20 +1,57 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { CompanyService } from '../company.service';
+import { Company } from '../models/company';
 import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-registration-company',
-  templateUrl: './registration-company.component.html',
-  styleUrls: ['./registration-company.component.css']
+  selector: 'app-admin',
+  templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.css']
 })
-export class RegistrationCompanyComponent implements OnInit {
+export class AdminComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router) {
-    this.createRegisterForm();
-  }
+  constructor(private service: CompanyService, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.service.getFalseStatusCompanies().subscribe((data: Company[]) => {
+      this.companies = data;
+    });
+
+  }
+
+  companies: Company [] = []  
+
+  accept(username){
+    this.service.accept(username).subscribe((comp : Company)=>{
+      if(comp != null){
+        this.companies.forEach((comp, index) => {
+          if(comp.username == username){
+            this.companies.splice(index, 1);
+            alert("STATUS PRIHVACEN")
+          }
+        });
+      }
+      else{
+        alert("GRESKA")
+      }
+    })
+  }
+
+  decline(username){
+    this.service.decline(username).subscribe((comp : Company)=>{
+      if(comp != null){
+        this.companies.forEach((comp, index) => {
+          if(comp.username == username){
+            this.companies.splice(index, 1);
+            alert("STATUS ODBIJEN")
+          }
+        });
+      }
+      else{
+        alert("GRESKA")
+      }
+    })
   }
 
   registerForm: FormGroup;
@@ -70,7 +107,7 @@ export class RegistrationCompanyComponent implements OnInit {
       alert("USAO DOBRo")
       this.passwordMismatch = false;
       this.userService.register(this.firstname, this.lastname, this.username, this.password, this.phoneNumber, this.email, this.companyName, this.country,
-        this.city, this.zipCode, street, this.PIB, this.registrationNumber, false).subscribe((resp)=>{
+        this.city, this.zipCode, street, this.PIB, this.registrationNumber, true).subscribe((resp)=>{
           if(resp['message']=='company added'){
             alert("OK")
           }else{

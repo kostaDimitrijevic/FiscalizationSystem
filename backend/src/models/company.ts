@@ -42,6 +42,9 @@ let Company = new Schema({
     registrationNumber:  {
         type: Number
     },
+    status: {
+        type: Boolean
+    }
 })
 
 export default mongoose.model('Company', Company, 'companies');

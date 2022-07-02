@@ -18,9 +18,10 @@ class UserController {
                     res.json(user);
             });
         };
-        this.register = (req, res) => {
+        this.registerCompany = (req, res) => {
             let username = req.body.username;
             let password = req.body.password;
+            console.log(username + "," + password);
             user_1.default.findOne({ 'username': username, 'type': "company" }, (err, user) => {
                 if (user)
                     console.log("User with that username allready exists");
@@ -28,7 +29,14 @@ class UserController {
                     let newCompany = new company_1.default({ firstname: req.body.firstname, lastname: req.body.lastname,
                         username: req.body.username, password: req.body.password, companyName: req.body.companyName, email: req.body.email,
                         country: req.body.country, zipCode: req.body.zipCode, PIB: req.body.PIB, registrationNumber: req.body.registrationNumber,
-                        street: req.body.street, phone: req.body.phoneNumber, city: req.body.city });
+                        street: req.body.street, phone: req.body.phoneNumber, city: req.body.city, status: req.body.status });
+                    newCompany.save().then(com => {
+                        let newUser = new user_1.default({ username: username, password: password, type: "company" });
+                        newUser.save();
+                        res.status(200).json({ 'message': 'company added' });
+                    }).catch(err => {
+                        res.status(400).json({ 'message': 'error' });
+                    });
                 }
             });
         };

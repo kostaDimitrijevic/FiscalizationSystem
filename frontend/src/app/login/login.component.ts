@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ROUTER_INITIALIZER } from '@angular/router';
 import { User } from '../models/user';
 import { UserService } from '../user.service';
 
@@ -28,8 +28,11 @@ export class LoginComponent implements OnInit {
     this.userService.login(this.username, this.password).subscribe((user: User) => {
       if(user){
         this.errorDisplay = false;
-        if(user.type=="kupac"){
-          alert("USPESNO")
+        if(user.type == "admin"){
+          this.router.navigate(['/admin']);
+        }
+        if(user.type=="company"){
+          this.router.navigate(['/companies']);
         }
       }
       else {

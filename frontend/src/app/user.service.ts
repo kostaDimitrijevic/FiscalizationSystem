@@ -20,7 +20,7 @@ export class UserService {
     return this.http.post(`${this.uri}/users/login`, data);
   }
 
-  register(firstname, lastname, username, password, phoneNumber, email, companyName, country, city, zipcode, street, PIB, registrationNumber: Number){
+  register(firstname, lastname, username, password, phoneNumber, email, companyName, country, city, zipcode, street, PIB, registrationNumber: Number, status: Boolean){
     const data = {
       firstname : firstname,
       lastname : lastname,
@@ -35,6 +35,7 @@ export class UserService {
       street : street,
       PIB : PIB,
       registrationNumber : registrationNumber,
+      status: status
     }
 
     return this.http.post(`${this.uri}/users/registerCompany`, data);
