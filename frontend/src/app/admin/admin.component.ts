@@ -11,7 +11,9 @@ import { UserService } from '../user.service';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private service: CompanyService, private userService: UserService) { }
+  constructor(private service: CompanyService, private userService: UserService) {
+    this.createRegisterForm();
+   }
 
   ngOnInit(): void {
     this.service.getFalseStatusCompanies().subscribe((data: Company[]) => {
@@ -97,14 +99,10 @@ export class AdminComponent implements OnInit {
 
   register(){
     let street = this.street + " " + this.streetNumber;
-    alert(this.password + "," + this.confirmPassword)
-    //Pas$w0rd
     if(this.password != this.confirmPassword){
-      alert("USAO")
       this.passwordMismatch = true;
     }
     else{
-      alert("USAO DOBRo")
       this.passwordMismatch = false;
       this.userService.register(this.firstname, this.lastname, this.username, this.password, this.phoneNumber, this.email, this.companyName, this.country,
         this.city, this.zipCode, street, this.PIB, this.registrationNumber, true).subscribe((resp)=>{

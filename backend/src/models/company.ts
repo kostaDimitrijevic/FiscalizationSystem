@@ -44,7 +44,48 @@ let Company = new Schema({
     },
     status: {
         type: Boolean
-    }
+    },
+    category: {
+        type: String
+    },
+    activityCodes: [{
+        type: String
+    }],
+    isPDV: {
+        type: Boolean
+    },
+    banks: [{
+        bankName:{
+            type: String
+        },
+        bankAccount:{
+            type: String
+        }
+    }],
+    numberOfWarehouses: {
+        type: Number
+    },
+    warehouses: [{
+        type: String
+    }],
+    numberOfRegisters: {
+        type: Number
+    },
+    cashRegisters: [{
+        country: {
+            type: String
+        },
+        city: {
+            type: String
+        },
+        street: {
+            type: String
+        },
+        type: {
+            type: String
+        }
+    }]
+
 })
 
 export default mongoose.model('Company', Company, 'companies');

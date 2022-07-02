@@ -31,8 +31,9 @@ export class LoginComponent implements OnInit {
         if(user.type == "admin"){
           this.router.navigate(['/admin']);
         }
-        if(user.type=="company"){
-          this.router.navigate(['/companies']);
+        if(user.type == "company"){
+          localStorage.setItem("username", this.username);
+          this.router.navigate(['/info']);
         }
       }
       else {

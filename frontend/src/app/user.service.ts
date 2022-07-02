@@ -40,4 +40,21 @@ export class UserService {
 
     return this.http.post(`${this.uri}/users/registerCompany`, data);
   }
+
+  addInfo(username, category, activityCodes, isPDV, banks, numOfWarehouse, warehouseNames, numOfRegisters,cashRegisters){
+
+    const data = {
+      username: username,
+      category : category,
+      activityCodes : activityCodes,
+      isPDV : isPDV,
+      banks : banks,
+      numberOfWarehouses : numOfWarehouse,
+      warehouses : warehouseNames,
+      numberOfRegisters : numOfRegisters,
+      cashRegisters : cashRegisters
+    }
+
+    return this.http.post(`${this.uri}/users/addInfo`, data);
+  }
 }

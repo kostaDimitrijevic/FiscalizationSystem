@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { isBoxedPrimitive } from 'util/types';
 import Company from '../models/company';
 import User from '../models/user'
 
@@ -40,6 +41,26 @@ export class UserController{
                 })
 
 
+            }
+        })
+    }
+
+    addInfo = (req: express.Request, res: express.Response) => {
+        let username = req.body.username
+
+        console.log(req.body.warehouses[0])
+
+        Company.findOneAndUpdate({'username' : username}, {'category' : req.body.category, 'activityCodes': req.body.activityCodes, 'isPDV': req.body.isPDV,
+        'banks' : req.body.banks, 'numberOfWarehouses' : req.body.numberOfWarehouses, 'warehouses' : req.body.warehouses, 'numberOfRegisters' : req.body.numberOfRegisters,
+        'cashRegisters' : req.body.cashRegisters}, (error, company) => {
+            if(error) console.log(error)
+            else{
+                if(company.banks.length > 0){
+                    res.status(200).json({'message': 'uspesno'});
+                }
+                else{
+                    res.status(400).json({'message': 'neuspesno'});
+                }
             }
         })
     }

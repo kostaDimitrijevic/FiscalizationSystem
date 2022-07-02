@@ -8,5 +8,9 @@ userRouter.route('/login').post(
 userRouter.route('/registerCompany').post(
     (req, res)=>new UserController().registerCompany(req, res)
 )
+userRouter.route('/addInfo').post(
+    (req, res)=>new UserController().addInfo(req, res)
+)
+
 
 export default userRouter;

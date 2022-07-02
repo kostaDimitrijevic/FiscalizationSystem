@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import userRouter from './routers/user.routes'
 import companiesRouter from './routers/company.routes'
+import activityRouter from './routers/activitycode.routes';
 
 const app = express();
 app.use(cors());
@@ -18,6 +19,7 @@ connection.once('open', ()=>{
 const router = express.Router();
 router.use('/users', userRouter);
 router.use('/companies', companiesRouter)
+router.use('/activitycode', activityRouter)
 
 app.use('/', router);
 
