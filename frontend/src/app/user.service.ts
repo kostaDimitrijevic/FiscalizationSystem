@@ -57,4 +57,5 @@ export class UserService {
 
     return this.http.post(`${this.uri}/users/addInfo`, data);
   }
+
 }

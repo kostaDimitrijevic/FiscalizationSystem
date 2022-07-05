@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ROUTER_INITIALIZER } from '@angular/router';
+import { CompanyService } from '../company.service';
+import { Company } from '../models/company';
 import { User } from '../models/user';
 import { UserService } from '../user.service';
 
@@ -11,7 +13,7 @@ import { UserService } from '../user.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router) { 
+  constructor(private userService: UserService, private companyService: CompanyService ,private router: Router) { 
     this.createLoginForm();
   }
 
@@ -27,13 +29,22 @@ export class LoginComponent implements OnInit {
   login(){
     this.userService.login(this.username, this.password).subscribe((user: User) => {
       if(user){
+        localStorage.setItem("username", this.username);
         this.errorDisplay = false;
-        if(user.type == "admin"){
-          this.router.navigate(['/admin']);
-        }
         if(user.type == "company"){
-          localStorage.setItem("username", this.username);
-          this.router.navigate(['/info']);
+          this.companyService.getCompany(this.username).subscribe((comp: Company) => {
+            if(comp){
+              if(!comp.infoAddedStatus){
+                this.router.navigate(['/info']);
+              }
+              else{
+                this.router.navigate(['/companies'])
+              }
+            }
+            else{
+              alert("GRESKA")
+            }
+          })
         }
       }
       else {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ActivitycodeService } from '../activitycode.service';
 import { ActivityCode } from '../models/activitycode';
 import { UserService } from '../user.service';
@@ -11,7 +12,7 @@ import { UserService } from '../user.service';
 })
 export class AdditionalInfoPageComponent implements OnInit {
 
-  constructor(private codeService : ActivitycodeService, private userService : UserService) { 
+  constructor(private codeService : ActivitycodeService, private userService : UserService, private router: Router) { 
     this.createInfoForm()
   }
 
@@ -29,10 +30,12 @@ export class AdditionalInfoPageComponent implements OnInit {
   isPDV = true
   banks : {
     bankName : String,
-    bankAcc : String
+    bankAccount : String
   }[] = []
   numOfWarehouse = 1
-  warehouseNames : String[] = []
+  warehouseNames : {
+    name : String
+  }[] = []
   cashRegisters : {
     country: String,
     city: String,
@@ -44,8 +47,8 @@ export class AdditionalInfoPageComponent implements OnInit {
 
   createInfoForm(){
 
-    this.banks.push({bankName: "", bankAcc : ""});
-    this.warehouseNames.push("")
+    this.banks.push({bankName: "", bankAccount : ""});
+    this.warehouseNames.push({name:""})
     this.cashRegisters.push({
       country : "",
       city : "",
@@ -65,14 +68,15 @@ export class AdditionalInfoPageComponent implements OnInit {
       street : new FormControl('', [Validators.required]),
       type: new FormControl('', [Validators.required])
     })
+
   }
 
   addInfo(){
-    alert(this.banks[0].bankAcc)
     this.userService.addInfo(localStorage.getItem("username"), this.category, this.addedActivityCode, this.isPDV, this.banks, this.warehouseNames.length, this.warehouseNames,
-      this.cashRegisters.length, this.cashRegisters).subscribe((msg: any) => {
-        if(msg == "uspesno"){
+      this.cashRegisters.length, this.cashRegisters).subscribe((res) => {
+        if(res['message'] == "uspesno"){
           alert("USPESNO DODATI PODACI")
+          this.router.navigate['/companies']
         }
         else{
           alert("ERROR")
@@ -81,7 +85,7 @@ export class AdditionalInfoPageComponent implements OnInit {
   }
 
   addBank(){
-    this.banks.push({bankName: "", bankAcc : ""});
+    this.banks.push({bankName: "", bankAccount : ""});
   }
 
   removeBank(){
@@ -89,7 +93,7 @@ export class AdditionalInfoPageComponent implements OnInit {
       this.banks.pop();
   }
   addWarehouse(){
-    this.warehouseNames.push("");
+    this.warehouseNames.push({name:""});
   }
 
   removeWarehouse(){

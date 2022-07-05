@@ -45,6 +45,9 @@ let Company = new Schema({
     status: {
         type: Boolean
     },
+    infoAddedStatus: {
+        type: Boolean
+    },
     category: {
         type: String
     },
@@ -66,7 +69,9 @@ let Company = new Schema({
         type: Number
     },
     warehouses: [{
-        type: String
+        name:{
+            type: String
+        }
     }],
     numberOfRegisters: {
         type: Number
@@ -83,6 +88,20 @@ let Company = new Schema({
         },
         type: {
             type: String
+        }
+    }],
+    orderers: [{
+        username: {
+            type: String
+        },
+        PIB: {
+            type: String
+        },
+        numOfDays: {
+            type: Number
+        },
+        percentOfRebate: {
+            type: Number
         }
     }]
 

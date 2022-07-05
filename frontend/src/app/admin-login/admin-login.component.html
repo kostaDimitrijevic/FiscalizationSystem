@@ -1,0 +1,35 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <div class="text-center mb-4">
+                    <h1 class="h3 mb-3 font-weight-normal">Admin Login</h1>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <br>
+                    <input class="form-control" formControlName="username" type="text" 
+                    [ngClass]="{'is-invalid' : (loginForm.controls['username'].touched && !loginForm.controls['username'].valid) || errorDisplay}" [(ngModel)]="username">             
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <br>
+                    <input class="form-control" formControlName="password" type="password"
+                    [ngClass]="{'is-invalid' : (loginForm.controls['password'].touched && !loginForm.controls['password'].valid) || errorDisplay}" [(ngModel)]="password">
+                </div>
+
+                <button type="submit" class="btn btn-block btn-primary">Login</button>
+
+                <div *ngIf="errorDisplay" class="invalid-feedback d-block">
+                    Invalid username or password!
+                </div>    
+            </form>
+            <br>
+            <div class="linkToReg">
+                <a href="http://localhost:4200/registerCompany">Don't have an account? Register here!</a>
+            </div>  
+        </div>
+    </div>
+</div>

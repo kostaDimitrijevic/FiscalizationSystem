@@ -27,4 +27,68 @@ export class CompanyService {
     }
     return this.http.post(`${this.uri}/companies/decline`, data)
   }
+
+  getCompany(username){
+    const data = {
+      username: username
+    }
+
+    return this.http.post(`${this.uri}/companies/getCompany`, data)
+  }
+
+  getWarehouses(username){
+    const data = {
+      username: username
+    }
+
+    return this.http.post(`${this.uri}/companies/getWarehouses`, data)
+  }
+
+  addOrderer(companyUser, firstname, lastname, username, password, phoneNumber, email, companyName, country, city, zipcode, street, PIB, registrationNumber: Number, orderer){
+    const data = {
+      companyUser : companyUser,
+      firstname : firstname,
+      lastname : lastname,
+      username : username,
+      password : password,
+      phoneNumber : phoneNumber,
+      email : email,
+      companyName : companyName,
+      country : country,
+      city : city,
+      zipcode : zipcode,
+      street : street,
+      PIB : PIB,
+      registrationNumber : registrationNumber,
+      orderer: orderer
+    }
+
+    return this.http.post(`${this.uri}/companies/addOrderer`, data)
+  }
+
+  searchByPIB(username, PIB){
+    const data = {
+      username: username,
+      PIB: PIB
+    }
+
+    return this.http.post(`${this.uri}/companies/searchByPIB`, data)
+  }
+
+  getOrderers(username){
+    const data = {
+      username: username
+    }
+
+    return this.http.post(`${this.uri}/companies/getOrderers`, data)
+  }
+
+  addExistingCompanyToOrderers(companyUser, orderer){
+    const data = {
+      companyUser: companyUser,
+      orderer : orderer
+    }
+
+    return this.http.post(`${this.uri}/companies/addExistingCompanyToOrderers`, data)
+  }
 }

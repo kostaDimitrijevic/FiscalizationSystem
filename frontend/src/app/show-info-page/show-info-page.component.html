@@ -1,0 +1,171 @@
+<div class="row">
+    <div class="col-10">
+        <h2 class="mt-5">Company information:</h2>
+        <ng-container *ngIf="whatToShow=='opsti'">
+            <table class="table mt-5">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            <div class="p-2 px-3 text-uppercase">Info</div>
+                        </th>
+                        <th>
+                            <div class="p-2 px-3 text-uppercase">Person</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Username:
+                        </td>
+                        <td>
+                            {{companyInfo.username}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Firstname:
+                        </td>
+                        <td>
+                            {{companyInfo.firstname}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Lastname:
+                        </td>
+                        <td>
+                            {{companyInfo.lastname}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Email:
+                        </td>
+                        <td>
+                            {{companyInfo.email}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Phone number:
+                        </td>
+                        <td>
+                            {{companyInfo.phoneNumber}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+        
+        <ng-container *ngIf="whatToShow=='opsti'">
+            <table class="table mt-5">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            <div class="p-2 px-3 text-uppercase">Info</div>
+                        </th>
+                        <th>
+                            <div class="p-2 px-3 text-uppercase">Company</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Company:
+                        </td>
+                        <td>
+                            {{companyInfo.companyName}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Country:
+                        </td>
+                        <td>
+                            {{companyInfo.country}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            City:
+                        </td>
+                        <td>
+                            {{companyInfo.city}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Street:
+                        </td>
+                        <td>
+                            {{companyInfo.street}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            PIB:
+                        </td>
+                        <td>
+                            {{companyInfo.PIB}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+        
+        <ng-container *ngIf="whatToShow=='magacini'">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Warehouse</th>
+                        <th>Id</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let wh of warehouses">
+                        <td>{{wh.name}}</td>
+                        <td>{{wh.idW.idWare}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+        <ng-container *ngIf="whatToShow=='racuni'">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Bank</th>
+                        <th>Bank account</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let bank of companyInfo.banks">
+                        <td>{{bank.bankName}}</td>
+                        <td>{{bank.bankAccount}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+        <ng-container *ngIf="whatToShow=='kase'">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Type</th>
+                        <th>County</th>
+                        <th>City</th>
+                        <th>Street</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let register of companyInfo.cashRegisters">
+                        <td>{{register.type}}</td>
+                        <td>{{register.country}}</td>
+                        <td>{{register.city}}</td>
+                        <td>{{register.street}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+    </div>
+</div>
