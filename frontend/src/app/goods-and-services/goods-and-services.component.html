@@ -1,1 +1,212 @@
-<p>goods-and-services works!</p>
+
+    <ng-container *ngIf="!addNewArtical">
+            <div class="totalRows mt-5 mb-3" style="font-weight: bold;">Total rows: {{totalRows}} <button class="btn btn-sm btn-dark ml-3" (click)="showForms()">Add new artical</button></div>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Artical code</th>
+                        <th>Name</th>
+                        <th>Unit</th>
+                        <th>Tax rate</th>
+                        <th>Manufacturer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let art of articals">
+                        <td>{{art.articalCode}}</td>
+                        <td>{{art.articalName}}</td>
+                        <td>{{art.unit}}</td>
+                        <td>{{art.taxRate}}</td>
+                        <td>{{art.manufacturer}}</td>
+                        <td><button class="btn btn-dark btn-sm" (click)="removeArtical(art.articalCode)">Remove</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item disabled">
+                    <a class="page-link">Previous</a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                  </li>
+                </ul>
+              </nav>
+    </ng-container>
+    <ng-container *ngIf="addNewArtical">
+        <ul class="nav nav-tabs mt-3">
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active' : opsti}" style="cursor: pointer;" (click)="changeToOpsti()">Opsti podaci</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active' : dopunski}" [hidden]="!formSubmited" style="cursor: pointer;" (click)="changeToDopunski()">Dopunski podaci</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active' : cene}" [hidden]="!formSubmited"  style="cursor: pointer;" (click)="changeToCene()">Cene i stanje robe</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  style="cursor: pointer;" (click)="showForms()">Nazad</a>
+            </li>
+          </ul>
+        <nav class="nav mt-3">
+
+        </nav>
+        <ng-container *ngIf="opsti">
+            <div class="col-8 mt-5">
+                <h2>Add new artical</h2>
+                <form [formGroup]="articalForm">
+                    <div class="form-group">
+                        <label class="form-label">Articals unique code </label>
+                        <input class="form-control" type="text" formControlName="articalCode" [(ngModel)]="articalCode"
+                        [class.is-invalid] = "articalForm.controls['articalCode'].touched && !articalForm.controls['articalCode'].valid"
+                        [class.is-valid] = "articalForm.controls['articalCode'].valid">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Articals name </label>
+                        <input class="form-control" type="text" formControlName="articalName" [(ngModel)]="articalName"
+                        [class.is-invalid] = "articalForm.controls['articalName'].touched && !articalForm.controls['articalName'].valid"
+                        [class.is-valid] = "articalForm.controls['articalName'].valid">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Articals unit </label>
+                        <input class="form-control" type="text" formControlName="unit" [(ngModel)]="unit"
+                        [class.is-invalid] = "articalForm.controls['unit'].touched && !articalForm.controls['unit'].valid"
+                        [class.is-valid] = "articalForm.controls['unit'].valid">
+                    </div>
+                    <div *ngIf="!companyInfo.isPDV">
+                        <p>Tax rate: 0% no PDV</p>
+                    </div>
+                    <div *ngIf="companyInfo.isPDV">
+                        <div class="form-group">
+                            <label class="form-label">Tax rate: &nbsp;&nbsp;</label>
+                            <input type="radio" formControlName="taxRate" [value]="20" [(ngModel)]="taxRate" checked> Opsta 20% &nbsp;
+                            <input type="radio" formControlName="taxRate" [value]="10" [(ngModel)]="taxRate"> Posebna 10%
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Type of artical: &nbsp;&nbsp;</label>
+                        <br>
+                        <input type="radio" formControlName="type" value="Hrana" [(ngModel)]="type" checked> Hrana
+                        <br>
+                        <input type="radio" formControlName="type" value="Pice" [(ngModel)]="type"> Pice
+                        <br>
+                        <input type="radio" formControlName="type" value="Sirovina" [(ngModel)]="type"> Sirovina
+                    </div>
+                    <div>
+                        <button class="btn btn-dark" [disabled]="!articalForm.valid" (click)="submitOpste()">Submit form</button>
+                    </div>
+                </form>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="dopunski">
+            <div class="col-8 mt-5">
+                <h2>Add additional data for artical</h2>
+                <form [formGroup]="articalForm">
+                    <div class="form-group">
+                        <label class="form-label">Country: </label>
+                        <input class="form-control" formControlName="country" type="text" [(ngModel)]="country">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Forein name:</label>
+                        <input class="form-control" formControlName="foreinName" type="text" [(ngModel)]="foreinName">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Barcode: </label>
+                        <input class="form-control" formControlName="barcode" type="text" [(ngModel)]="barcode">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Manufacturer:</label>
+                        <input class="form-control" type="text" formControlName="manufacturer" [(ngModel)]="manufacturer">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Customs tariff:</label>
+                        <input class="form-control" type="number" formControlName="customsTariff" [(ngModel)]="customsTariff">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Eco tax: </label>
+                        <input class="form-check-input ml-2 mt-2"  type="checkbox" formControlName="ecoTax" [(ngModel)]="ecoTax">
+                    </div >
+                    <div class="form-group">
+                        <label class="form-label">Excise tax: </label>
+                        <input class="form-check-input ml-2 mt-2"  type="checkbox" formControlName="exciseTax" [(ngModel)]="exciseTax">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Minimum supplies:</label>
+                        <input class="form-control" type="text" formControlName="minSupplies" [(ngModel)]="minSupplies">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Maximum supplies:</label>
+                        <input class="form-control" type="text" formControlName="maxSupplies" [(ngModel)]="maxSupplies">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description:</label>
+                        <br>
+                        <textarea formControlName="description" cols="76" rows="5" [(ngModel)]="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Decleration:</label>
+                        <input class="form-control" type="text" formControlName="decleration" [(ngModel)]="decleration">
+                    </div>
+                    <div>
+                        <button class="btn btn-dark mb-5" (click)="submitDodatne()">Submit more info</button>
+                    </div>
+                </form>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="cene">
+            <div class="col-12 mt-5">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <th>Warehouse/Object name</th>
+                        <th>Purchase price</th>
+                        <th>Selling price</th>
+                        <th>Current stock status</th>
+                        <th>Minimum amount</th>
+                        <th>Maximum amount</th>
+                        <th>Add</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pas of currentArtical.pricesAndState">
+                            <td>{{pas.warehouseRegisterName}}</td>
+                            <td>{{pas.purchasePrice}}</td>
+                            <td>{{pas.sellingPrice}}</td>
+                            <td>{{pas.currentStockStatus}}</td>
+                            <td>{{pas.minAmount}}</td>
+                            <td>{{pas.maxAmount}}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select [(ngModel)] = "warehouseRegisterName" *ngFor="let register of companyInfo.cashRegisters">
+                                    <ng-container *ngFor="let warehouse of warehouses">
+                                        <option value={{warehouse.name}}>{{warehouse.name}}</option>
+                                    </ng-container>
+                                    <option value={{register.registerName}}>{{register.registerName}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" [(ngModel)]="purchasePrice">
+                            </td>
+                            <td>
+                                <input type="text" [(ngModel)]="sellingPrice">
+                            </td>
+                            <td>             
+                                <input type="text" [(ngModel)]="currentStockStatus">
+                            </td>
+                            <td>
+                                <input type="text" [(ngModel)]="minAmount">
+                            </td>
+                            <td>
+                                <input type="text" [(ngModel)]="maxAmount">
+                            </td>
+                            <td>
+                                <button class="btn btn-dark btn-sm" (click)="addArticalpricesAndStatus()">Add</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+    </ng-container>

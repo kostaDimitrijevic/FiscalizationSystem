@@ -22,6 +22,9 @@ companiesRouter.route('/getCompany').post(
 companiesRouter.route('/getWarehouses').post(
     (req, res) => new CompanyController().getWarehouses(req, res)
 )
+companiesRouter.route('/getCashRegisters').post(
+    (req, res) => new CompanyController().getCashRegisters(req, res)
+)
 companiesRouter.route('/addOrderer').post(
     (req, res) => new CompanyController().addOrderer(req, res)
 )
@@ -34,5 +37,9 @@ companiesRouter.route('/getOrderers').post(
 )
 companiesRouter.route('/addExistingCompanyToOrderers').post(
     (req, res) => new CompanyController().addExistingCompanyToOrderers(req, res)
+)
+
+companiesRouter.route('/getCompanyLogo').post(
+    (req, res) => new CompanyController().getCompanyLogo(req, res)
 )
 export default companiesRouter;

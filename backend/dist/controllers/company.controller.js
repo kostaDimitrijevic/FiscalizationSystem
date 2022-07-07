@@ -51,6 +51,15 @@ class CompanyController {
                 }
             });
         };
+        this.getCashRegisters = (req, res) => {
+            company_1.default.findOne({ 'username': req.body.username }, (err, comp) => {
+                if (err)
+                    console.log(err);
+                else {
+                    res.json(comp.cashRegisters);
+                }
+            });
+        };
         this.addOrderer = (req, res) => {
             let username = req.body.username;
             let password = req.body.password;
@@ -103,7 +112,6 @@ class CompanyController {
             });
         };
         this.addExistingCompanyToOrderers = (req, res) => {
-            console.log("USAO");
             company_1.default.findOneAndUpdate({ 'username': req.body.companyUser }, { $push: { 'orderers': req.body.orderer } }, (err, comp) => {
                 if (err) {
                     console.log("ERROR");
@@ -111,6 +119,16 @@ class CompanyController {
                 }
                 else {
                     res.status(200).json({ 'message': 'uspesno' });
+                }
+            });
+        };
+        this.getCompanyLogo = (req, res) => {
+            company_1.default.findOne({ 'username': req.body.username }, (err, comp) => {
+                if (err)
+                    console.log(err);
+                else {
+                    const fs = require('fs');
+                    res.json(fs.readFileSync(comp.get('companyLogoPath'), { encoding: 'utf8' }));
                 }
             });
         };

@@ -44,6 +44,14 @@ export class CompanyService {
     return this.http.post(`${this.uri}/companies/getWarehouses`, data)
   }
 
+  getCashRegisters(username){
+    const data = {
+      username: username
+    }
+
+    return this.http.post(`${this.uri}/companies/getCashRegisters`, data)
+  }
+
   addOrderer(companyUser, firstname, lastname, username, password, phoneNumber, email, companyName, country, city, zipcode, street, PIB, registrationNumber: Number, orderer){
     const data = {
       companyUser : companyUser,
@@ -90,5 +98,13 @@ export class CompanyService {
     }
 
     return this.http.post(`${this.uri}/companies/addExistingCompanyToOrderers`, data)
+  }
+
+  getCompanyLogo(username){
+    const data = {
+      username : username
+    }
+    return this.http.post(`${this.uri}/companies/getCompanyLogo`, data)
+
   }
 }

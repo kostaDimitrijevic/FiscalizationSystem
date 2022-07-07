@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import userRouter from './routers/user.routes'
 import companiesRouter from './routers/company.routes'
 import activityRouter from './routers/activitycode.routes';
+import articalRouter from './routers/artical.routes';
 
 const app = express();
 app.use(cors());
@@ -20,6 +21,7 @@ const router = express.Router();
 router.use('/users', userRouter);
 router.use('/companies', companiesRouter)
 router.use('/activitycode', activityRouter)
+router.use('/artical', articalRouter)
 
 app.use('/', router);
 

@@ -14,6 +14,7 @@ export class Company{
     street: string
     PIB: string
     registrationNumber: number
+    companyLogoPath: String
     status: boolean
     infoAddedStatus: Boolean
     activityCode: ActivityCode[] = []
@@ -29,6 +30,7 @@ export class Company{
     }[] = []
     numberOfRegisters : number
     cashRegisters : {
+        registerName: String,
         country: String,
         city: String,
         street: String

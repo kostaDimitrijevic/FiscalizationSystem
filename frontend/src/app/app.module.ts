@@ -14,6 +14,7 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { OrdererComponent } from './orderer/orderer.component';
 import { ShowInfoPageComponent } from './show-info-page/show-info-page.component';
 import { GoodsAndServicesComponent } from './goods-and-services/goods-and-services.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { GoodsAndServicesComponent } from './goods-and-services/goods-and-servic
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

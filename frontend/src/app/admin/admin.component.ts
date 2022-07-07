@@ -77,6 +77,13 @@ export class AdminComponent implements OnInit {
 
   passwordMismatch = false;
 
+  imageWidth: number;
+  imageHeight: number;
+  badDimensions = false;
+  wrongFileType = false;
+  imageString : String
+  file: File = null;
+
   createRegisterForm(){
     this.registerForm = new FormGroup({
       firstname : new FormControl('', [Validators.required]),
@@ -92,6 +99,7 @@ export class AdminComponent implements OnInit {
       zipCode : new FormControl('', [Validators.required]),
       street : new FormControl('', [Validators.required]),
       streetNumber : new FormControl('', [Validators.required]),
+      companyLogo : new FormControl('', [Validators.required]),
       PIB : new FormControl('', [Validators.required, Validators.pattern('^[1-9][0-9]{8,8}$')]),
       registrationNumber : new FormControl('', [Validators.required, Validators.pattern('^[0-9]{1,}$')])
     })
@@ -99,21 +107,68 @@ export class AdminComponent implements OnInit {
 
   register(){
     let street = this.street + " " + this.streetNumber;
+
     if(this.password != this.confirmPassword){
       this.passwordMismatch = true;
     }
     else{
       this.passwordMismatch = false;
-      this.userService.register(this.firstname, this.lastname, this.username, this.password, this.phoneNumber, this.email, this.companyName, this.country,
-        this.city, this.zipCode, street, this.PIB, this.registrationNumber, true).subscribe((resp)=>{
-          if(resp['message']=='company added'){
-            alert("OK")
-          }else{
-            alert("ERROR")
-          }
-        })
-
+      if(this.imageWidth < 100 || this.imageWidth > 300 || this.imageHeight < 100 || this.imageHeight > 300){
+        this.badDimensions = true
+      }
+      else{
+        this.badDimensions = false
+        this.userService.register(this.firstname, this.lastname, this.username, this.password, this.phoneNumber, this.email, this.companyName, this.country,
+          this.city, this.zipCode, street, this.PIB, this.registrationNumber, false, this.imageString).subscribe((resp)=>{
+            if(resp['message']=='company added'){
+              alert("OK")
+            }else{
+              alert("ERROR")
+            }
+          })
+      }
     }
 
   }
+
+  // On file Select
+  onChange(event) {
+      this.file = event.target.files[0];
+
+      if(this.file){
+        if(this.file.type != 'image/jpeg' && this.file.type != 'image/png'){
+          this.wrongFileType = true;
+        }
+        else{
+          this.wrongFileType = false;
+          let fileReader = new FileReader();
+
+          fileReader.onload = this._handleReaderLoaded.bind(this);
+        }
+      }
+  }
+
+  _handleReaderLoaded(readerEvt) {
+
+    let binaryString = readerEvt.target.result;
+
+    this.imageString= btoa(binaryString);
+
+
+
+    let image = new Image();
+
+    image.src = "data:"+this.file.type+";base64,"+ this.imageString;
+
+    this.imageString=image.src
+
+    image.addEventListener('load',()=>{
+
+      this.imageWidth=image.width;
+
+      this.imageHeight=image.height;
+
+    });
+
+   }
 }

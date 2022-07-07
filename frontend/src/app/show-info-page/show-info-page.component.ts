@@ -16,6 +16,10 @@ export class ShowInfoPageComponent implements OnInit {
     this.compService.getWarehouses(localStorage.getItem('username')).subscribe((wh : Warehouse[])=>{
       this.warehouses = wh;
     })
+
+    this.compService.getCompanyLogo(localStorage.getItem('username')).subscribe((logo : String)=>{
+      this.companyLogo = logo
+    })
   }
 
   @Input()
@@ -25,4 +29,6 @@ export class ShowInfoPageComponent implements OnInit {
   whatToShow : string
 
   warehouses : Warehouse[] = []
+
+  companyLogo : String
 }

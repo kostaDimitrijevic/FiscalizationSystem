@@ -19,15 +19,24 @@ export class UserController{
         let username = req.body.username;
         let password = req.body.password;
 
+        const fs = require('fs');
+
+        if (!fs.existsSync('./companyLogos')){
+    
+            fs.mkdirSync('./companyLogos');
+    
+        }
+
+        fs.writeFileSync('companyLogos\\'+ req.body.username, req.body.companyLogo);
+
         User.findOne({'username': username, 'type' : "company"}, (err, user) => {
             if(user) console.log("User with that username allready exists");
             else {
                 let newCompany = new Company({firstname: req.body.firstname, lastname: req.body.lastname,
                     username : req.body.username, password : req.body.password, companyName : req.body.companyName, email : req.body.email,
                     country : req.body.country, zipCode : req.body.zipCode, PIB : req.body.PIB, registrationNumber : req.body.registrationNumber, 
-                    street : req.body.street, phone : req.body.phoneNumber, city : req.body.city, status : req.body.status, infoAddedStatus: false})
+                    street : req.body.street, phone : req.body.phoneNumber, city : req.body.city, status : req.body.status, infoAddedStatus: false, companyLogoPath: 'companyLogos/' + req.body.username})
                 
-
 
                 newCompany.save().then(com=>{
                     let newUser = new User({username : username, password : password, type: "company"});

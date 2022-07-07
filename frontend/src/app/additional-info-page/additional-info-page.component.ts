@@ -37,6 +37,7 @@ export class AdditionalInfoPageComponent implements OnInit {
     name : String
   }[] = []
   cashRegisters : {
+    registerName: String,
     country: String,
     city: String,
     street: String
@@ -50,6 +51,7 @@ export class AdditionalInfoPageComponent implements OnInit {
     this.banks.push({bankName: "", bankAccount : ""});
     this.warehouseNames.push({name:""})
     this.cashRegisters.push({
+      registerName : "",
       country : "",
       city : "",
       street : "",
@@ -62,6 +64,7 @@ export class AdditionalInfoPageComponent implements OnInit {
       isPDV : new FormControl('', [Validators.required]),
       bankName : new FormControl('', [Validators.required]),
       bankAcc : new FormControl('', [Validators.required, Validators.pattern('[0-9]{3}(-)[0-9]{12}(-)[0-9]{2}')]),
+      registerName : new FormControl('', [Validators.required]),
       warehouse: new FormControl('', [Validators.required]),
       country : new FormControl('', [Validators.required]),
       city : new FormControl('', [Validators.required]),
@@ -102,6 +105,7 @@ export class AdditionalInfoPageComponent implements OnInit {
   }
   addRegister(){
     this.cashRegisters.push({
+      registerName : "",
       country : "",
       city : "",
       street : "",

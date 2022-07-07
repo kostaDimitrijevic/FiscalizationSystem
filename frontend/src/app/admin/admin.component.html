@@ -206,6 +206,14 @@
                         You must enter your registration number, It can't have alphabet characters!
                     </div>
                 </div>
+                <div class="form-group">
+                    <input class="form-control" formControlName="companyLogo" type="file" (change)="onChange($event)"
+                    [ngClass]="{ 'is-invalid' : !registerForm.controls['companyLogo'].valid || badDimensions || wrongFileType}"
+                    [ngClass]="{ 'is-valid' : registerForm.controls['companyLogo'].valid && !badDimensions}">
+                    <div *ngIf="!registerForm.controls['companyLogo'].valid || badDimensions || wrongFileType" class="invalid-feedback d-block">
+                        You must upload your companies logo!
+                    </div>
+                </div>
                 <div>
                     <button [disabled]="!registerForm.valid && !passwordMismatch" type="submit" class="btn btn-lg btn-block btn-success">Add company</button>
                 </div>         

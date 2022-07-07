@@ -45,6 +45,9 @@ let Company = new Schema({
     registrationNumber: {
         type: Number
     },
+    companyLogoPath: {
+        type: String
+    },
     status: {
         type: Boolean
     },
@@ -80,6 +83,9 @@ let Company = new Schema({
         type: Number
     },
     cashRegisters: [{
+            registerName: {
+                type: String
+            },
             country: {
                 type: String
             },

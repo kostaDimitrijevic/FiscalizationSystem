@@ -54,6 +54,13 @@
                 <label>Add cash register: <button class="btn-sm btn-dark ml-2" (click)="addRegister()">Add register</button> <button class="btn-sm btn-danger ml-2" (click)="removeRegister()">Remove register</button></label>
                 <ng-container *ngFor="let register of cashRegisters, let i = index">
                     <div class="form-group">
+                        <label class="form-label">Register name:</label>
+                        <input class="form-control" formControlName="registerName" type="text"  
+                        [class.is-invalid] = "infoForm.controls['registerName'].touched && !infoForm.controls['registerName'].valid"
+                        [class.is-valid] = "infoForm.controls['registerName'].valid"
+                        [(ngModel)]="cashRegisters[i].registerName">
+                    </div>
+                    <div class="form-group">
                         <label class="form-label">Country:</label>
                         <input class="form-control" formControlName="country" type="text"  
                         [class.is-invalid] = "infoForm.controls['country'].touched && !infoForm.controls['country'].valid"

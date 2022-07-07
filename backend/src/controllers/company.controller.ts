@@ -46,6 +46,15 @@ export class CompanyController{
         })
     }
 
+    getCashRegisters = (req: express.Request, res: express.Response) => {
+        Company.findOne({'username' : req.body.username}, (err, comp) => {
+            if(err) console.log(err)
+            else{
+                res.json(comp.cashRegisters)
+            }
+        })
+    }
+
     
     addOrderer = (req: express.Request, res: express.Response) => {
 
@@ -93,9 +102,8 @@ export class CompanyController{
                     }
                 })
             }
+    
         })
-
-
     }
 
     getOrderers = (req: express.Request, res: express.Response) => {
@@ -108,7 +116,6 @@ export class CompanyController{
     }
 
     addExistingCompanyToOrderers = (req: express.Request, res: express.Response) => {
-        console.log("USAO")
         Company.findOneAndUpdate({'username' : req.body.companyUser}, {$push : {'orderers' : req.body.orderer}}, (err, comp) =>{
             if(err) {
                 console.log("ERROR")
@@ -116,6 +123,16 @@ export class CompanyController{
             }
             else{
                 res.status(200).json({'message': 'uspesno'});
+            }
+        })
+    }
+
+    getCompanyLogo = (req: express.Request, res: express.Response) => {
+        Company.findOne({'username' : req.body.username}, (err, comp) => {
+            if(err) console.log(err)
+            else{
+                const fs = require('fs');
+                res.json( fs.readFileSync(comp.get('companyLogoPath'), {encoding:'utf8'}))
             }
         })
     }
