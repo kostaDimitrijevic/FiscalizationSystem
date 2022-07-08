@@ -1,0 +1,91 @@
+<div class="row mt-5">
+    <div class="col-8">
+        <label for="categoryInp">Add new category:</label>
+        <br>
+        <input class="categoryInp mr-2" type="text" [(ngModel)] ="category">
+        <button class="btn btn-sm btn-dark mb-1" (click)="addCategory()">Add</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-8">
+        <select name="subcat" [(ngModel)] = "selectedCat">
+            <ng-container *ngFor="let cat of categories">
+                <option value={{cat.category}}>{{cat.category}}</option>
+            </ng-container>            
+        </select>
+        <input class="sub mr-3 ml-4" type="text" [(ngModel)] = "subcategory">
+        <button class="btn btn-dark btn-sm mb-2" (click)="addSubcategory()">Add subcategory</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-5 mt-5">
+        <table class="table">
+            <thead class="thead-dark">
+                <th>List of categories</th>
+                <th>Add articals</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cat of categories">
+                    <td>{{cat.category}}</td>
+                    <td><button class="btn btn-dark btn-sm" (click)="open(content, cat.category, false)">Add articals</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-5 mt-5">
+        <table class="table">
+            <thead class="thead-dark">
+                <th>List of Subcategories</th>
+                <th>Parent category</th>
+                <th>Add articals</th>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let cat of categories">
+                    <tr *ngFor="let subCat of cat.subcategories">
+                        <td>{{subCat}}</td>
+                        <td>{{cat.category}}</td>
+                        <td><button class="btn btn-dark btn-sm" (click)="open(content, subCat, true)">Add articals</button></td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-6">
+        <ng-template #content let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Add articals</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                    <input class="search mb-2" placeholder="Search" type="search" [(ngModel)]="searchStr" [ngModelOptions]="{standalone: true}">
+                    <button class="btn btn-outline-success mb-1 ml-2" (click)="searchByName()">Search</button>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <th>Artical</th>
+                            <th>Artical code</th>
+                            <th>Type</th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let art of articals">
+                                <td>{{art.articalName}}</td>
+                                <td>{{art.articalCode}}</td>
+                                <td>{{art.type}}</td>
+                                <td><button class="btn btn-sm btn-dark" (click)="addArticalCategory(art.articalCode)">Add</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+                <div *ngIf="error" class="invalid-feedback d-block">
+                    Artical allready has category!
+                </div>    
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Finish</button>
+            </div>
+        </ng-template>
+    </div>
+    
+</div>

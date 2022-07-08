@@ -22,6 +22,14 @@ export class GoodsAndServicesComponent implements OnInit {
     this.createArticalForm()
     this.articalService.getArticals(this.companyInfo.username).subscribe((articals : Artical[]) => {
       this.articals = articals
+      this.totalRows = this.articals.length
+      this.articals.forEach((element, index) => {
+        if(index < 10){
+          this.articalsToShow.push(element)
+        }
+
+      });
+      this.numberOfPages = this.articals.length % 10 + 1
     })
 
     this.companyService.getWarehouses(this.companyInfo.username).subscribe((warehouses : Warehouse[]) => {
@@ -34,7 +42,7 @@ export class GoodsAndServicesComponent implements OnInit {
   warehouses : Warehouse [] = []
 
   numberOfPages : Number
-  currentPage : Number
+  currentPage = 1
   totalRows : Number
   addNewArtical = false
 
@@ -71,6 +79,7 @@ export class GoodsAndServicesComponent implements OnInit {
   maxAmount: Number
 
   articals : Artical[] = []
+  articalsToShow : Artical[] = []
   currentArticalCode : String
   currentArtical : Artical
 
@@ -177,5 +186,34 @@ export class GoodsAndServicesComponent implements OnInit {
         }
       })
     alert(this.currentArtical.pricesAndState[0].warehouseRegisterName)
+  }
+
+  next(){
+    if(this.currentPage < this.numberOfPages){
+      this.articalsToShow = []
+      this.currentPage = this.currentPage + 1
+
+        this.articals.forEach((element, index) => {
+          if(index >= 10 * (this.currentPage - 1) && index < 10 * this.currentPage){
+            this.articalsToShow.push(element)
+          }
+  
+        });
+    }
+
+  }
+  previous(){
+    
+    if(this.currentPage > 1){
+      this.articalsToShow = []
+      this.currentPage = this.currentPage - 1
+
+        this.articals.forEach((element, index) => {
+          if(index >= 10 * (this.currentPage - 1) && index < 10 * this.currentPage){
+            this.articalsToShow.push(element)
+          }
+  
+        });
+    }
   }
 }

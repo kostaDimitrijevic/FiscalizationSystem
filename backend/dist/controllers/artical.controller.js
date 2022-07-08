@@ -83,6 +83,25 @@ class ArticalController {
                 }
             });
         };
+        this.addArticalCategory = (req, res) => {
+            artical_1.default.findOne({ 'articalCode': req.body.articalCode }, (err, art) => {
+                console.log(art.category.name);
+                if (art.category.name != undefined) {
+                    res.status(200).json({ 'message': 'postoji' });
+                }
+                else {
+                    artical_1.default.findOneAndUpdate({ 'articalCode': req.body.articalCode }, { 'category.name': req.body.category, 'category.isSub': req.body.isSub }, (err, art) => {
+                        if (err) {
+                            console.log(err);
+                            res.status(400).json({ 'message': 'error' });
+                        }
+                        else {
+                            res.status(200).json({ 'message': 'artical updated' });
+                        }
+                    });
+                }
+            });
+        };
     }
 }
 exports.ArticalController = ArticalController;

@@ -24,6 +24,9 @@
                     <li class="nav-item ml-4" [ngClass]="{'active' : isRobe} ">
                         <div class="nav-link" style="cursor: pointer;" (click)="showRobe()">Robe i usluge</div>
                     </li>
+                    <li class="nav-item ml-4" [ngClass]="{'active' : isArtikal} ">
+                        <div class="nav-link" style="cursor: pointer;" (click)="showArtical()">Raspored artikala</div>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -39,6 +42,9 @@
                     <app-goods-and-services [companyInfo]="companyInfo"></app-goods-and-services>
                 </div>
             </div>
+        </ng-container>
+        <ng-container *ngIf="isArtikal">
+            <app-artical-arrangement></app-artical-arrangement>
         </ng-container>
     </ng-container>
     

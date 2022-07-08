@@ -79,4 +79,14 @@ export class ArticalService {
     
     return this.http.post(`${this.uri}/artical/addArticalpricesAndStatus`, data)
   }
+
+  addArticalCategory(articalCode, category, isSub){
+    const data = {
+      articalCode : articalCode,
+      category : category,
+      isSub : isSub
+    } 
+
+    return this.http.post(`${this.uri}/artical/addArticalCategory`, data)
+  }
 }

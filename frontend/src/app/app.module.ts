@@ -15,6 +15,8 @@ import { OrdererComponent } from './orderer/orderer.component';
 import { ShowInfoPageComponent } from './show-info-page/show-info-page.component';
 import { GoodsAndServicesComponent } from './goods-and-services/goods-and-services.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ArticalArrangementComponent } from './artical-arrangement/artical-arrangement.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdminLoginComponent,
     OrdererComponent,
     ShowInfoPageComponent,
-    GoodsAndServicesComponent
+    GoodsAndServicesComponent,
+    ArticalArrangementComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -80,4 +80,24 @@ export class ArticalController{
             }
         })
     }
+
+    addArticalCategory = (req: express.Request, res: express.Response) => {
+        Artical.findOne({'articalCode' : req.body.articalCode}, (err, art) => {
+            if(art.category.name != undefined){
+                res.status(200).json({'message': 'postoji'});
+            }   
+            else{
+                Artical.findOneAndUpdate({'articalCode' : req.body.articalCode}, {'category.name' : req.body.category, 'category.isSub' : req.body.isSub}, (err, art)=>{
+                    if(err){
+                        console.log(err)
+                        res.status(400).json({'message': 'error'})
+                    }
+                    else{
+                        res.status(200).json({'message': 'artical updated'});
+                    }
+                })
+            }
+        })
+
+    }
 }

@@ -9,6 +9,10 @@ let Artical = new Schema({
     company: {
         type: String
     },
+    category: {
+        name: String,
+        isSub: String
+    },
     articalCode: {
         type: String
     },

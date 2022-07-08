@@ -42,4 +42,13 @@ companiesRouter.route('/addExistingCompanyToOrderers').post(
 companiesRouter.route('/getCompanyLogo').post(
     (req, res) => new CompanyController().getCompanyLogo(req, res)
 )
+companiesRouter.route('/addCategory').post(
+    (req, res) => new CompanyController().addCategory(req, res)
+)
+companiesRouter.route('/addSubcategory').post(
+    (req, res) => new CompanyController().addSubcategory(req, res)
+)
+companiesRouter.route('/getAllCategories').post(
+    (req, res) => new CompanyController().getAllCategories(req, res)
+)
 export default companiesRouter;

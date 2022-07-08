@@ -9,10 +9,11 @@
                         <th>Unit</th>
                         <th>Tax rate</th>
                         <th>Manufacturer</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let art of articals">
+                    <tr *ngFor="let art of articalsToShow">
                         <td>{{art.articalCode}}</td>
                         <td>{{art.articalName}}</td>
                         <td>{{art.unit}}</td>
@@ -24,14 +25,12 @@
             </table>
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                  <li class="page-item disabled">
-                    <a class="page-link">Previous</a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
                   <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
+                    <a class="page-link" style="cursor: pointer;" (click)="previous()">Previous</a>
+                  </li>
+                  <li class="page-item"><a class="page-link">{{currentPage}}</a></li>
+                  <li class="page-item">
+                    <a class="page-link" style="cursor: pointer;" (click)="next()">Next</a>
                   </li>
                 </ul>
               </nav>
@@ -179,11 +178,13 @@
                         </tr>
                         <tr>
                             <td>
-                                <select [(ngModel)] = "warehouseRegisterName" *ngFor="let register of companyInfo.cashRegisters">
+                                <select [(ngModel)] = "warehouseRegisterName" >
                                     <ng-container *ngFor="let warehouse of warehouses">
                                         <option value={{warehouse.name}}>{{warehouse.name}}</option>
                                     </ng-container>
-                                    <option value={{register.registerName}}>{{register.registerName}}</option>
+                                    <ng-container *ngFor="let register of companyInfo.cashRegisters">
+                                        <option value={{register.registerName}}>{{register.registerName}}</option>
+                                    </ng-container>                                
                                 </select>
                             </td>
                             <td>

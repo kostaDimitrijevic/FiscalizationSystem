@@ -7,6 +7,7 @@ exports.CompanyController = void 0;
 const warehouse_1 = __importDefault(require("../models/warehouse"));
 const company_1 = __importDefault(require("../models/company"));
 const user_1 = __importDefault(require("../models/user"));
+const category_1 = __importDefault(require("../models/category"));
 class CompanyController {
     constructor() {
         this.getFalseStatusCompanies = (req, res) => {
@@ -129,6 +130,54 @@ class CompanyController {
                 else {
                     const fs = require('fs');
                     res.json(fs.readFileSync(comp.get('companyLogoPath'), { encoding: 'utf8' }));
+                }
+            });
+        };
+        this.addCategory = (req, res) => {
+            category_1.default.findOne({ 'company': req.body.company, 'category': req.body.name }, (err, cat) => {
+                if (cat)
+                    console.log("Kategorija sa tim nazivom vec postoji");
+                else {
+                    let newCat = new category_1.default({ company: req.body.company, category: req.body.name });
+                    newCat.save().then(category => {
+                        res.status(200).json({ 'message': 'category added' });
+                    }).catch(error => {
+                        res.status(400).json({ 'message': 'error' });
+                    });
+                }
+            });
+        };
+        this.addSubcategory = (req, res) => {
+            console.log(req.body.company);
+            category_1.default.findOne({ 'company': req.body.company, 'category': req.body.name }, (err, cat) => {
+                let error = false;
+                cat.subcategories.forEach(subCat => {
+                    if (subCat == req.body.subcategory) {
+                        error = true;
+                    }
+                });
+                if (error) {
+                    res.status(200).json({ 'message': 'postoji' });
+                }
+                else {
+                    category_1.default.findOneAndUpdate({ 'company': req.body.company, 'category': req.body.name }, { $push: { 'subcategories': req.body.subcategory } }, (err, cat) => {
+                        if (err) {
+                            console.log(err);
+                            res.status(400).json({ 'message': 'error' });
+                        }
+                        else {
+                            res.status(200).json({ 'message': 'Subcategory added' });
+                        }
+                    });
+                }
+            });
+        };
+        this.getAllCategories = (req, res) => {
+            category_1.default.find({ 'company': req.body.company }, (err, cat) => {
+                if (err)
+                    console.log(err);
+                else {
+                    res.json(cat);
                 }
             });
         };

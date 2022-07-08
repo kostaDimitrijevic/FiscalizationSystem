@@ -25,5 +25,8 @@ articalRouter.route('/removeArtical').post(
 articalRouter.route('/addArticalpricesAndStatus').post(
     (res, req) => new ArticalController().addArticalpricesAndStatus(res, req)
 )
+articalRouter.route('/addArticalCategory').post(
+    (res, req) => new ArticalController().addArticalCategory(res, req)
+)
 
 export default articalRouter;

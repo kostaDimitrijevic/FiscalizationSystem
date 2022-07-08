@@ -107,4 +107,30 @@ export class CompanyService {
     return this.http.post(`${this.uri}/companies/getCompanyLogo`, data)
 
   }
+
+  addCategory(company, name){
+    const data = {
+      company : company,
+      name : name
+    }
+
+    return this.http.post(`${this.uri}/companies/addCategory`, data)
+  }
+  addSubcategory(company, name, subcategory){
+    const data = {
+      company : company,
+      name : name,
+      subcategory: subcategory
+    }
+
+    return this.http.post(`${this.uri}/companies/addSubcategory`, data)
+  }
+  
+  getAllCategories(company){
+    const data = {
+      company : company
+    }
+
+    return this.http.post(`${this.uri}/companies/getAllCategories`, data)
+  }
 }

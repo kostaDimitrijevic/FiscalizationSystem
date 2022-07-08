@@ -24,23 +24,33 @@ export class CompanyPageComponent implements OnInit {
   isNarucioci = false;
   isPrikaz = true;
   isRobe = false;
+  isArtikal = false;
 
   showNarucioci(){
     this.isNarucioci = true;
     this.isPrikaz = false;
     this.isRobe = false;
+    this.isArtikal = false;
   }
   showRobe(){
     this.isNarucioci = false;
     this.isPrikaz = false;
     this.isRobe = true;
+    this.isArtikal = false;
   }
   showPodaci(show : string){
     this.isNarucioci = false;
     this.isPrikaz = true;
     this.isRobe = false;
+    this.isArtikal = false;
 
     this.show = show;
   }
   
+  showArtical(){
+    this.isNarucioci = false;
+    this.isPrikaz = false;
+    this.isRobe = false;
+    this.isArtikal = true;
+  }
 }
