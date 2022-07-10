@@ -6,6 +6,7 @@ export class Company{
     username: string
     password: string
     phoneNumber: string
+    category: string
     email: string
     companyName: string
     country: string

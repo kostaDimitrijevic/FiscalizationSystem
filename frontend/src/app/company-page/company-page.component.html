@@ -27,6 +27,9 @@
                     <li class="nav-item ml-4" [ngClass]="{'active' : isArtikal} ">
                         <div class="nav-link" style="cursor: pointer;" (click)="showArtical()">Raspored artikala</div>
                     </li>
+                    <ng-container *ngIf = "companyInfo.category == 'Ugostiteljski objekat'">
+                        <div class="nav-link" style="cursor: pointer;" (click)="showRaspored()">Raspored stolova</div>
+                    </ng-container>
                 </ul>
             </div>
         </nav>
@@ -45,6 +48,9 @@
         </ng-container>
         <ng-container *ngIf="isArtikal">
             <app-artical-arrangement></app-artical-arrangement>
+        </ng-container>
+        <ng-container *ngIf="isRaspored">
+            <app-table-arrangement></app-table-arrangement>
         </ng-container>
     </ng-container>
     

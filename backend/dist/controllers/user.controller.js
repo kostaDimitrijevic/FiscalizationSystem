@@ -58,15 +58,12 @@ class UserController {
             company_1.default.findOneAndUpdate({ 'username': username }, { 'category': req.body.category, 'activityCodes': req.body.activityCodes, 'isPDV': req.body.isPDV,
                 'banks': req.body.banks, 'numberOfWarehouses': req.body.numberOfWarehouses, 'warehouses': req.body.warehouses, 'numberOfRegisters': req.body.numberOfRegisters,
                 'cashRegisters': req.body.cashRegisters, infoAddedStatus: true }, (error, company) => {
-                if (error)
+                if (error) {
                     console.log(error);
+                    res.status(200).json({ 'message': 'neuspesno' });
+                }
                 else {
-                    if (company.banks.length > 0) {
-                        res.status(200).json({ 'message': 'uspesno' });
-                    }
-                    else {
-                        res.status(400).json({ 'message': 'neuspesno' });
-                    }
+                    res.status(200).json({ 'message': 'uspesno' });
                 }
             });
         };

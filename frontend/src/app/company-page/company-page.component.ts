@@ -25,24 +25,28 @@ export class CompanyPageComponent implements OnInit {
   isPrikaz = true;
   isRobe = false;
   isArtikal = false;
+  isRaspored = false;
 
   showNarucioci(){
     this.isNarucioci = true;
     this.isPrikaz = false;
     this.isRobe = false;
     this.isArtikal = false;
+    this.isRaspored = false;
   }
   showRobe(){
     this.isNarucioci = false;
     this.isPrikaz = false;
     this.isRobe = true;
     this.isArtikal = false;
+    this.isRaspored = false;
   }
   showPodaci(show : string){
     this.isNarucioci = false;
     this.isPrikaz = true;
     this.isRobe = false;
     this.isArtikal = false;
+    this.isRaspored = false;
 
     this.show = show;
   }
@@ -52,5 +56,14 @@ export class CompanyPageComponent implements OnInit {
     this.isPrikaz = false;
     this.isRobe = false;
     this.isArtikal = true;
+    this.isRaspored = false;
+  }
+
+  showRaspored(){
+    this.isNarucioci = false;
+    this.isPrikaz = false;
+    this.isRobe = false;
+    this.isArtikal = false;
+    this.isRaspored = true;
   }
 }

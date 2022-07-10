@@ -54,6 +54,9 @@ let Company = new Schema({
     infoAddedStatus: {
         type: Boolean
     },
+    category: {
+        type: String
+    },
     activityCodes: [{
             type: String
         }],

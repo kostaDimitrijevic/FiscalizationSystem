@@ -1,0 +1,95 @@
+<div class="container-fluid" id="cont">
+    <div class="row">
+        <div class="odeljenje col-2" (click)="createDepartmentFields('Sala')">
+            <p class="head">Sala</p>   
+        </div>
+        <div class="odeljenje col-2" (click)="createDepartmentFields('Basta')">
+            <p class="head">Basta</p>
+        </div>
+        <div class="odeljenje col-2 prazno">
+        </div>
+        <div class="odeljenje col-2 prazno">
+        </div>
+        <div class="odeljenje col-2 prazno">
+        </div>
+        <div class="class odeljenje col-2">
+            <p class="head">Add department</p>
+        </div>
+    </div>
+    <div class="row mt-2 mb-3">
+        <div class="col-12" style="padding: 0px">
+            <button class="btn btn-dark" style="width: 10%;" (click)="open(content)">Add table</button>
+        </div>
+    </div>
+    <div class="row parent" id="arrange" *ngIf="current">
+        <table class="firstTable">
+            <ng-container *ngFor="let row of mapDepartment.get(currentDepartment).matrix; let i = index">
+                <tr class="tableRow">
+                    <ng-container *ngFor="let column of row; let j = index">
+                        <td class="field" (click)="addTableToFields(i, j)" [ngClass]="{'fillTable' : mapDepartment.get(currentDepartment).matrix[i][j] == 't'}">
+                            <img class="rectImage" [hidden]="mapDepartment.get(currentDepartment).matrix[i][j] == 't'" src="/assets/polje.jpg">
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </table>
+        <table class="secondTable">
+            <ng-container *ngFor="let row of mapDepartment.get(currentDepartment).matrixCircles; let i = index">
+                <tr class="tableRow">
+                    <ng-container *ngFor="let column of row; let j = index">
+                        <ng-container *ngIf="column.mark == 'c'">
+                            <td class="circleField" (click)="addTableToFields(i, j)" [colSpan]="column.width" [rowSpan]="column.height">
+                                <img class="image" src="/assets/circle.png">
+                            </td>
+                        </ng-container>
+                        <ng-container *ngIf="column.mark != 'c'">
+                            <td class="field" (click)="addTableToFields(i, j)">
+                            </td>
+                        </ng-container>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </table>
+    </div>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Add table</h4>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="tableForm">
+                <div class="form-group">
+                    <label class="form-label">Table name:</label>
+                    <input type="text" class="form-control" formControlName="name" [(ngModel)]="tableName"
+                    [class.is-invalid] = "tableForm.controls['name'].touched && !tableForm.controls['name'].valid"
+                    [class.is-valid] = "tableForm.controls['name'].valid">
+                </div>
+                <div>
+                    <label>Shape &nbsp;&nbsp;</label>
+                    <input [ngModelOptions]="{standalone: true}" type="radio"  value="Rectangle" [(ngModel)]="tableShape" checked> Rectangle &nbsp;
+                    <input [ngModelOptions]="{standalone: true}" type="radio"  value="Circle" [(ngModel)]="tableShape"> Circle
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Table width:</label>
+                    <input type="text" class="form-control" formControlName="width" [(ngModel)]="tableWidth"
+                    [class.is-invalid] = "tableForm.controls['width'].touched && !tableForm.controls['width'].valid"
+                    [class.is-valid] = "tableForm.controls['width'].valid">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Table height:</label>
+                    <input type="text" class="form-control" formControlName="height" [(ngModel)]="tableHeight"
+                    [class.is-invalid] = "tableForm.controls['height'].touched && !tableForm.controls['height'].valid"
+                    [class.is-valid] = "tableForm.controls['height'].valid">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div *ngIf="tableForm.invalid" class="invalid-feedback d-block">
+                No field can be empty!
+            </div> 
+            <div *ngIf="tableForm.valid" class="valid-feedback d-block">
+                Select field to insert table
+            </div> 
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Finish</button>
+        </div>
+    </ng-template>
+</div>

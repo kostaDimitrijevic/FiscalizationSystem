@@ -85,15 +85,18 @@
                             <input type="radio" formControlName="taxRate" [value]="10" [(ngModel)]="taxRate"> Posebna 10%
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Type of artical: &nbsp;&nbsp;</label>
-                        <br>
-                        <input type="radio" formControlName="type" value="Hrana" [(ngModel)]="type" checked> Hrana
-                        <br>
-                        <input type="radio" formControlName="type" value="Pice" [(ngModel)]="type"> Pice
-                        <br>
-                        <input type="radio" formControlName="type" value="Sirovina" [(ngModel)]="type"> Sirovina
-                    </div>
+                    <ng-container *ngIf="companyInfo.category == 'Ugostiteljski objekat'">
+                        <div class="form-group">
+                            <label class="form-label">Type of artical: &nbsp;&nbsp;</label>
+                            <br>
+                            <input type="radio" formControlName="type" value="Hrana" [(ngModel)]="type" checked> Hrana
+                            <br>
+                            <input type="radio" formControlName="type" value="Pice" [(ngModel)]="type"> Pice
+                            <br>
+                            <input type="radio" formControlName="type" value="Sirovina" [(ngModel)]="type"> Sirovina
+                        </div>
+                    </ng-container>
+                   
                     <div>
                         <button class="btn btn-dark" [disabled]="!articalForm.valid" (click)="submitOpste()">Submit form</button>
                     </div>

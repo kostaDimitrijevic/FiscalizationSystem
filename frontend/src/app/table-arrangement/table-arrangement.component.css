@@ -1,0 +1,58 @@
+.odeljenje{
+    display: flex;
+    justify-content: center;
+    background-color: gray;
+    color: white;
+    height: 10vh;
+    border-style: solid;
+    border-color: white;
+    border-width: 0.25vh;
+}
+
+.odeljenje:hover{
+    height: 11vh;
+    background-color: rgb(79, 133, 204);
+}
+
+.head{
+    font-size: large;
+    font-weight: bold;
+    padding-top: 2.5vh;
+}
+
+.field{
+    width: 8vh;
+    height: 8vh;
+    padding: 0px;
+    border: solid white 2px;
+}
+
+.rectImage{
+    width: 100%;
+    height: 100%;
+}
+
+.image{
+    width: 100%;
+    height: 100%;
+}
+
+.parent{
+    position: relative;
+}
+
+.fillTable {
+    border: solid black 2px;
+    background-color: white;
+}
+
+.firstTable{           
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.secondTable{
+    z-index: 10;
+    pointer-events: none;
+}

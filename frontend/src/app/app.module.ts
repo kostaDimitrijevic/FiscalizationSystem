@@ -17,6 +17,7 @@ import { GoodsAndServicesComponent } from './goods-and-services/goods-and-servic
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ArticalArrangementComponent } from './artical-arrangement/artical-arrangement.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TableArrangementComponent } from './table-arrangement/table-arrangement.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     OrdererComponent,
     ShowInfoPageComponent,
     GoodsAndServicesComponent,
-    ArticalArrangementComponent
+    ArticalArrangementComponent,
+    TableArrangementComponent
   ],
   imports: [
     BrowserModule,

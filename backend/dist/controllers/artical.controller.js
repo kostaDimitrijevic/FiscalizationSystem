@@ -85,7 +85,6 @@ class ArticalController {
         };
         this.addArticalCategory = (req, res) => {
             artical_1.default.findOne({ 'articalCode': req.body.articalCode }, (err, art) => {
-                console.log(art.category.name);
                 if (art.category.name != undefined) {
                     res.status(200).json({ 'message': 'postoji' });
                 }
