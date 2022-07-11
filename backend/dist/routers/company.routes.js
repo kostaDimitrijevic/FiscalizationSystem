@@ -20,5 +20,7 @@ companiesRouter.route('/getCompanyLogo').post((req, res) => new company_controll
 companiesRouter.route('/addCategory').post((req, res) => new company_controller_1.CompanyController().addCategory(req, res));
 companiesRouter.route('/addSubcategory').post((req, res) => new company_controller_1.CompanyController().addSubcategory(req, res));
 companiesRouter.route('/getAllCategories').post((req, res) => new company_controller_1.CompanyController().getAllCategories(req, res));
+companiesRouter.route('/addDepartment').post((req, res) => new company_controller_1.CompanyController().addDepartment(req, res));
+companiesRouter.route('/updateDepartment').post((req, res) => new company_controller_1.CompanyController().updateDepartment(req, res));
 exports.default = companiesRouter;
 //# sourceMappingURL=company.routes.js.map

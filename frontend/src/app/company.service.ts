@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Department } from './models/department';
 
 @Injectable({
   providedIn: 'root'
@@ -132,5 +133,23 @@ export class CompanyService {
     }
 
     return this.http.post(`${this.uri}/companies/getAllCategories`, data)
+  }
+
+  addDepartment(username, department : Department){
+    const data = {
+      username : username,
+      department : department
+    }
+
+    return this.http.post(`${this.uri}/companies/addDepartment`, data)
+  }
+  updateDepartment(username, departmentName, department : Department){
+    const data = {
+      username : username,
+      departmentName : departmentName,
+      department : department
+    }
+
+    return this.http.post(`${this.uri}/companies/updateDepartment`, data)
   }
 }

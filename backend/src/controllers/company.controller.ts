@@ -187,4 +187,44 @@ export class CompanyController{
             }
         })
     }
+
+    addDepartment = (req: express.Request, res: express.Response) => {
+        Company.updateOne({'username' : req.body.username}, {$push : {'departments': req.body.department}}, (err) => {
+            if(err) {
+                console.log(err)
+                res.status(400).json({'message': 'error'})
+            }
+            else{
+                res.status(200).json({'message': 'department added'})
+            }
+        })
+    }
+
+    updateDepartment = (req: express.Request, res: express.Response) => {
+        Company.findOne({'username' : req.body.username}, (err, comp) => {
+            if(err){
+                console.log(err)
+                res.status(400).json({'message': 'error'})
+            }
+            else{
+                comp.departments.forEach((department, index) => {
+                    if(department.departmentName == req.body.departmentName){
+                        comp.departments.splice(index, 1)
+                    }
+                });
+                comp.departments.push(req.body.department)
+                        
+                Company.findOneAndUpdate({'username' : req.body.username}, {$set : {'departments': comp.departments}}, (err, compa) => {
+                    if(err) {
+                        console.log(err)
+                        res.status(400).json({'message': 'error'})
+                    }
+                    else{
+                        res.status(200).json({'message': 'department added'})
+                    }
+                })
+
+            }
+        })
+    }
 }

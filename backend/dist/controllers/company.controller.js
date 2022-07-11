@@ -181,6 +181,42 @@ class CompanyController {
                 }
             });
         };
+        this.addDepartment = (req, res) => {
+            company_1.default.updateOne({ 'username': req.body.username }, { $push: { 'departments': req.body.department } }, (err) => {
+                if (err) {
+                    console.log(err);
+                    res.status(400).json({ 'message': 'error' });
+                }
+                else {
+                    res.status(200).json({ 'message': 'department added' });
+                }
+            });
+        };
+        this.updateDepartment = (req, res) => {
+            company_1.default.findOne({ 'username': req.body.username }, (err, comp) => {
+                if (err) {
+                    console.log(err);
+                    res.status(400).json({ 'message': 'error' });
+                }
+                else {
+                    comp.departments.forEach((department, index) => {
+                        if (department.departmentName == req.body.departmentName) {
+                            comp.departments.splice(index, 1);
+                        }
+                    });
+                    comp.departments.push(req.body.department);
+                    company_1.default.findOneAndUpdate({ 'username': req.body.username }, { $set: { 'departments': comp.departments } }, (err, compa) => {
+                        if (err) {
+                            console.log(err);
+                            res.status(400).json({ 'message': 'error' });
+                        }
+                        else {
+                            res.status(200).json({ 'message': 'department added' });
+                        }
+                    });
+                }
+            });
+        };
     }
 }
 exports.CompanyController = CompanyController;

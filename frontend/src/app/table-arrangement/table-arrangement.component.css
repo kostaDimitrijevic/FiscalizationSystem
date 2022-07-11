@@ -41,6 +41,17 @@
     position: relative;
 }
 
+.circleField{
+    position: relative;
+}
+
+.tableName{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    z-index: 12;
+}
+
 .fillTable {
     border: solid black 2px;
     background-color: white;

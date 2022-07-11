@@ -51,4 +51,10 @@ companiesRouter.route('/addSubcategory').post(
 companiesRouter.route('/getAllCategories').post(
     (req, res) => new CompanyController().getAllCategories(req, res)
 )
+companiesRouter.route('/addDepartment').post(
+    (req, res) => new CompanyController().addDepartment(req, res)
+)
+companiesRouter.route('/updateDepartment').post(
+    (req, res) => new CompanyController().updateDepartment(req, res)
+)
 export default companiesRouter;

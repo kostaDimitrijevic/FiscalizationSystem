@@ -112,6 +112,62 @@ let Company = new Schema({
             percentOfRebate: {
                 type: Number
             }
+        }],
+    departments: [{
+            isActive: {
+                type: Boolean
+            },
+            departmentName: {
+                type: String
+            },
+            width: {
+                type: Number
+            },
+            height: {
+                type: Number
+            },
+            matrix: [[{
+                        tableName: {
+                            type: String
+                        },
+                        mark: {
+                            type: String
+                        }
+                    }]],
+            matrixCircles: [[{
+                        tableName: {
+                            type: String
+                        },
+                        mark: {
+                            type: String
+                        },
+                        width: {
+                            type: Number
+                        },
+                        height: {
+                            type: Number
+                        }
+                    }]],
+            tables: [{
+                    name: {
+                        type: String
+                    },
+                    width: {
+                        type: Number
+                    },
+                    height: {
+                        type: Number
+                    },
+                    row: {
+                        type: Number
+                    },
+                    column: {
+                        type: Number
+                    },
+                    shape: {
+                        type: String
+                    }
+                }]
         }]
 });
 exports.default = mongoose_1.default.model('Company', Company, 'companies');
