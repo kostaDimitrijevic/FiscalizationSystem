@@ -174,18 +174,14 @@ export class GoodsAndServicesComponent implements OnInit {
       this.currentStockStatus, this.minAmount, this.maxAmount).subscribe((res) => {
         if(res["message"] == "artical updated"){
           alert("Uspesno dodati podaci")
-          alert(this.currentArticalCode)
           this.articalService.getArtical(this.currentArticalCode).subscribe((art : Artical) => {
-            alert(art.articalCode)
             this.currentArtical = art
-            alert(this.currentArtical.pricesAndState[0].warehouseRegisterName)
           })
         }
         else{
           alert("GRESKA")
         }
       })
-    alert(this.currentArtical.pricesAndState[0].warehouseRegisterName)
   }
 
   next(){

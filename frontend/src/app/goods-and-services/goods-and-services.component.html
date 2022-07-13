@@ -97,9 +97,18 @@
                         </div>
                     </ng-container>
                    
-                    <div>
-                        <button class="btn btn-dark" [disabled]="!articalForm.valid" (click)="submitOpste()">Submit form</button>
-                    </div>
+                    <ng-container *ngIf="companyInfo.category == 'Ugostiteljski objekat'">
+                        <div>
+                            <button class="btn btn-dark" [disabled]="!articalForm.valid" (click)="submitOpste()">Submit form</button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="companyInfo.category == 'Prodavnica'">
+                        <div>
+                            <button class="btn btn-dark" [disabled]="(articalForm.controls['unit'].invalid || articalForm.controls['articalCode'].invalid || articalForm.controls['articalName'].invalid) && articalForm.controls['type'].invalid" 
+                                (click)="submitOpste()">Submit form</button>
+                        </div>
+                    </ng-container>
+                   
                 </form>
             </div>
         </ng-container>

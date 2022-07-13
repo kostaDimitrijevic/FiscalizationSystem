@@ -100,4 +100,30 @@ export class ArticalController{
         })
 
     }
+
+    getArticalsByObject = (req: express.Request, res: express.Response) => {
+        
+        if(req.body.warehouses != 'no'){
+            Artical.find({'company' : req.body.company, 'pricesAndState.warehouseRegisterName' : {$in : [req.body.warehouse]}}, (err, articals) => {
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log(articals.length)
+                    res.json(articals)
+                }
+            })
+        }
+        else{
+            Artical.find({'company' : req.body.company, 'pricesAndState.warehouseRegisterName' : {$in : [req.body.name]}}, (err, articals) => {
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log(articals.length)
+                    res.json(articals)
+                }
+            })
+        }
+    }
 }

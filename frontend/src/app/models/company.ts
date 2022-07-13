@@ -27,7 +27,7 @@ export class Company{
         bankAccount : String
     }[] = []
     numberOfWarehouses : number
-    warehouseNames : {
+    warehouses : {
         name : String
     }[] = []
     numberOfRegisters : number
@@ -43,7 +43,7 @@ export class Company{
         PIB: String
         numOfDays: Number
         percentOfRebate: Number
-    }
+    }[]
     departments: {
         isActive : boolean
         departmentName : string
@@ -52,6 +52,8 @@ export class Company{
         matrix : {
             tableName : string
             mark : string
+            width : number
+            height : number
         }[][]
         matrixCircles : {
             tableName : string

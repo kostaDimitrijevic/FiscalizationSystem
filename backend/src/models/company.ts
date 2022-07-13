@@ -130,6 +130,12 @@ let Company = new Schema({
             },
             mark : {
                 type: String
+            },
+            width : {
+                type: Number
+            },
+            height : {
+                type: Number
             }
         }]],
         matrixCircles : [[{

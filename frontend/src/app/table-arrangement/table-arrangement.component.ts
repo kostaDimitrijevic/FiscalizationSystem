@@ -58,11 +58,7 @@ export class TableArrangementComponent implements OnInit {
   }
 
   addDepartment(depName, width, height){
-    let matrix :  {
-      tableName : string
-      mark : string
-    }[][] = []
-    let matrixCircles : {
+    let matrix : {
       tableName : string
       mark : string
       width : number
@@ -76,7 +72,7 @@ export class TableArrangementComponent implements OnInit {
       column : number
       shape : string
     }[] = []
-    let dep : Department = {isActive : false, departmentName: depName, width : width, height : height, matrix : matrix, matrixCircles : matrixCircles, tables}
+    let dep : Department = {isActive : false, departmentName: depName, width : width, height : height, matrix : matrix, matrixCircles : matrix, tables}
     this.companyService.addDepartment(localStorage.getItem('username'), dep).subscribe((res) => {
       if(res['message'] != 'department added'){
         alert("GRESKA")
@@ -95,20 +91,41 @@ export class TableArrangementComponent implements OnInit {
     let tempMatrixCircle = department.matrixCircles
     department.matrix = []
     department.matrixCircles = []
-    for (let i = 0; i < department.height; i++) { 
-      department.matrix[i] = []
-      department.matrixCircles[i] = []
-      for (let j = 0; j < department.width; j++) {
-
-        if(department.isActive){
-          department.matrix[i].push(tempMatrix[i][j])
-          department.matrixCircles[i].push(tempMatrixCircle[i][j])
+    if(!department.isActive){
+      for (let i = 0; i < department.height; i++) { 
+        department.matrix[i] = []
+        department.matrixCircles[i] = []
+        for (let j = 0; j < department.width; j++) {
+            department.matrix[i].push({tableName: '', mark : 'e', width : 1, height : 1})
+            department.matrixCircles[i].push({tableName: '' , mark : 'e', width : 1, height : 1})
         }
-        else{
-          department.matrix[i].push({tableName: '', mark : 'e'})
-          department.matrixCircles[i].push({tableName: '' , mark : 'e', width : 0, height : 0})
+      } 
+    }
+    else{
+      for (let i = 0; i < tempMatrix.length; i++) { 
+        department.matrix[i] = []
+        for (let j = 0; j < tempMatrix[i].length; j++) {
+  
+          if(department.isActive){
+            department.matrix[i].push(tempMatrix[i][j])
+          }
+          else{
+            department.matrix[i].push({tableName: '', mark : 'e', width : 1, height : 1})
+          }
         }
-      }
+      } 
+      for (let i = 0; i < tempMatrixCircle.length; i++) { 
+        department.matrixCircles[i] = []
+        for (let j = 0; j < tempMatrixCircle[i].length; j++) {
+  
+          if(department.isActive){
+            department.matrixCircles[i].push(tempMatrixCircle[i][j])
+          }
+          else{
+            department.matrixCircles[i].push({tableName: '' , mark : 'e', width : 1, height : 1})
+          }
+        }
+      } 
     } 
 
     if(!department.isActive){
@@ -132,33 +149,54 @@ export class TableArrangementComponent implements OnInit {
         let department = this.mapDepartment.get(this.currentDepartment)
         department.isActive = true
 
+        let tempMatrix = department.matrix
+        let tempMatrixCircle = department.matrixCircles
+
         if(this.tableShape == "Circle"){
+          department.matrix = []
           department.matrixCircles = []
-          for (let i = 0; i < department.height; i++) {
+          for (let i = 0; i < tempMatrixCircle.length; i++) {
+            department.matrix[i] = []
             department.matrixCircles[i] = []
-            for(let j = 0; j < department.width; j++){
+            for(let j = 0; j < tempMatrixCircle[i].length; j++){
               if(i >= row &&  i < tableRow && j >= column && j < tableCol){
                 if(i == row && j == column){
                   department.matrixCircles[i].push({tableName: this.tableName, mark : 'c', width : this.tableWidth, height : this.tableHeight})
+                  department.matrix[i].push({tableName: this.tableName, mark : 'c', width : this.tableWidth, height : this.tableHeight})
                 }
                 else{
-                  continue;
+                  department.matrixCircles[i].push({tableName: this.tableName, mark : 'f', width : this.tableWidth, height : this.tableHeight})
+                  department.matrix[i].push({tableName: this.tableName, mark : 'f', width : this.tableWidth, height : this.tableHeight})
                 }
               }
               else{
-                department.matrixCircles[i].push({tableName: this.tableName, mark : 'e', width : this.tableWidth, height : this.tableHeight})
+                department.matrixCircles[i].push(tempMatrixCircle[i][j])
+                department.matrix[i].push(tempMatrix[i][j])
               }
             }
           }
         }
         else{
-          for (let i = row; i < tableRow; i++) {
-            for(let j = column; j < tableCol; j++){
-              if(i == row && j == column){
-                department.matrix[i][j].tableName = this.tableName
+          department.matrix = []
+          department.matrixCircles = []
+          for (let i = 0; i < tempMatrix.length; i++) {
+            department.matrix[i] = []
+            department.matrixCircles[i] = []
+            for(let j = 0; j < tempMatrix[i].length; j++){
+              if(i >= row &&  i < tableRow && j >= column && j < tableCol){
+                if(i == row && j == column){
+                  department.matrix[i].push({tableName: this.tableName, mark : 't', width : this.tableWidth, height : this.tableHeight})
+                  department.matrixCircles[i].push({tableName: this.tableName, mark : 't', width : this.tableWidth, height : this.tableHeight})
+                }
+                else{
+                  department.matrixCircles[i].push({tableName: this.tableName, mark : 'f', width : this.tableWidth, height : this.tableHeight})
+                  department.matrix[i].push({tableName: this.tableName, mark : 'f', width : this.tableWidth, height : this.tableHeight})
+                }
               }
-
-              department.matrix[i][j].mark = 't'
+              else{
+                department.matrix[i].push(tempMatrix[i][j])
+                department.matrixCircles[i].push(tempMatrixCircle[i][j])
+              }
             }
           }
         }
@@ -193,14 +231,14 @@ export class TableArrangementComponent implements OnInit {
     let checkRow = Number(row) + Number(this.tableHeight)
     let department = this.mapDepartment.get(this.currentDepartment)
 
-    if(checkCol > department.matrix[0].length || this.tableWidth <= 0 || checkRow > department.matrix.length || this.tableHeight <= 0){
+    if(checkCol > department.matrix[row].length || this.tableWidth <= 0 || checkRow > department.matrix.length || this.tableHeight <= 0){
       alert("Out of range")
       return false
     }
     
     for (let i = row; i < checkRow; i++) {
       for(let j = column; j < checkCol; j++){
-        if(department.matrix[i][j].mark != 'e'){
+        if(department.matrix[i][j].mark != 'e' || department.matrixCircles[i][j].mark != 'e'){
           alert("No space for table")
           return false
         }

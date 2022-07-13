@@ -1,0 +1,138 @@
+<div class="container-fluid" id="cont">
+    <div class="row">
+        <div class="odeljenje col-2" (click)="createDepartmentFields(departmentNames[0])">
+            <p class="head">{{departmentNames[0]}}</p>   
+        </div>
+        <div class="odeljenje col-2" (click)="createDepartmentFields(departmentNames[1])">
+            <p class="head">{{departmentNames[1]}}</p>
+        </div>
+        <div class="odeljenje col-2" (click)="createDepartmentFields(departmentNames[2])">
+            <p class="head">{{departmentNames[2]}}</p>
+        </div>
+        <div class="odeljenje col-2" (click)="createDepartmentFields(departmentNames[3])">
+            <p class="head">{{departmentNames[3]}}</p>
+        </div>
+        <div class="odeljenje col-2" (click)="createDepartmentFields(departmentNames[4])">
+            <p class="head">{{departmentNames[4]}}</p>
+        </div>
+        <div class="class odeljenje col-2">
+            <p class="head"></p>
+        </div>
+    </div>
+    <br>
+    <button class="btn btn-dark btn-lg"></button>
+    <br>
+    <div class="row parent mt-2" id="arrange" *ngIf="current">
+        <table class="firstTable">
+            <ng-container *ngFor="let row of mapDepartment.get(currentDepartment).matrix; let i = index">
+                <tr class="tableRow">
+                    <ng-container *ngFor="let column of row; let j = index">
+                        <ng-container *ngIf="column.mark != 'f'">
+                            <ng-container *ngIf="column.mark == 't'">
+                                <td class="field fillTable" [colSpan]="column.width" [rowSpan]="column.height" (click)="selectTable(currentDepartment, column.tableName)" [ngClass]="{'selected' : mapSelectedTables.get(column.tableName)}">
+                                    <img class="rectImage" [hidden]="column.mark == 't'" src="/assets/polje.jpg">
+                                    <p>{{column.tableName}}</p>
+                                </td>
+                            </ng-container>
+                            <ng-container *ngIf="column.mark != 't'">
+                                <td class="field" [colSpan]="column.width" [rowSpan]="column.height">
+                                    <img class="rectImage" [hidden]="column.mark =='c'" src="/assets/polje.jpg">
+                                </td>
+                            </ng-container>
+    
+                        </ng-container>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </table>
+        <table class="secondTable">
+            <ng-container *ngFor="let row of mapDepartment.get(currentDepartment).matrixCircles; let i = index">
+                <tr class="tableRow">
+                    <ng-container *ngFor="let column of row; let j = index">
+                        <ng-container *ngIf="column.mark != 'f'">
+                            <ng-container *ngIf="column.mark == 'c'">
+                                <td class="circleField" [colSpan]="column.width" [rowSpan]="column.height" (click)="selectTable(currentDepartment, column.tableName)" [ngClass]="{'selectedCircle' : mapSelectedTables.get(column.tableName)}">
+                                    <img class="image" src="/assets/circle.png">
+                                    <p class="tableName">{{column.tableName}}</p>
+                                </td>
+                            </ng-container>
+                            <ng-container *ngIf="column.mark != 'c'">
+                                <td class="field" [colSpan]="column.width" [rowSpan]="column.height">
+                                </td>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </table>
+    </div>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Payment</h4>
+        </div>
+        <ng-container *ngIf="paymentMethod == 'gotovina'">
+            <div class="modal-body">
+                <form>
+                    <Label>Paid amount:</Label>
+                    <input type="text" class="form-control" [(ngModel)]="paidAmount">
+                    <br>
+                    <Label>ID number:</Label>
+                    <input type="text" class="form-control" [(ngModel)]="IDNumber">
+                    <br>
+                    <p style="font-size: medium; font-weight: bold;">Return amount: {{returnAmount}}</p>
+                    <br>
+                    <ng-container *ngIf="notEnough">
+                        <p style="font-size: medium; font-weight: bold; color: red">Error: more money needed</p>
+                    </ng-container>
+
+                    <br>
+                    <button class="btn btn-dark" (click)="bill()">Bill</button>
+                </form>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="paymentMethod == 'cek'">
+            <div class="modal-body">
+                <form>
+                    <Label class="form-label">Firstname:</Label>
+                    <input type="text" class="form-control" [(ngModel)]="firstname">
+                    <br>
+                    <Label class="form-label">Lastname:</Label>
+                    <input type="text" class="form-control" [(ngModel)]="lastname">
+                    <br>
+                    <Label class="form-label">ID number:</Label>
+                    <input type="text" class="form-control" [(ngModel)]="IDNumber">
+                    <br>
+                    <button class="btn btn-dark">Bill</button>
+                </form>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="paymentMethod == 'kartica'">
+            <div class="modal-body">
+                <form>
+                    <Label class="form-label">ID number:</Label>
+                    <input type="text" class="form-control" [(ngModel)]="IDNumber">
+                    <br>
+                    <Label class="form-label">Bill slip:</Label>
+                    <input type="text" class="form-control" [(ngModel)]="billSlip">
+                    <br>
+                    <button class="btn btn-dark">Bill</button>
+                </form>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="paymentMethod == 'virman'">
+            <div class="modal-body">
+                <select name="narucioc mb-3">
+                    <ng-container *ngFor="let nar of companyInfo.orderers">
+                        <option value={{nar.username}}>{{nar.username}}</option>
+                    </ng-container>
+                </select>
+                <br>
+                <button class="btn btn-dark">Bill</button>
+            </div>
+        </ng-container>
+       
+        <div class="modal-footer"> 
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Finish</button>
+        </div>
+    </ng-template>
+</div>

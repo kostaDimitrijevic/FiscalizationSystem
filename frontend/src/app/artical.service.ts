@@ -89,4 +89,14 @@ export class ArticalService {
 
     return this.http.post(`${this.uri}/artical/addArticalCategory`, data)
   }
+
+  getArticalsByObject(company, warehouse, name){
+    const data = {
+      company : company,
+      warehouse : warehouse,
+      name : name
+    }
+
+    return this.http.post(`${this.uri}/artical/getArticalsByObject`, data)
+  }
 }

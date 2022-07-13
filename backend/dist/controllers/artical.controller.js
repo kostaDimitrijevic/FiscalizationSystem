@@ -101,6 +101,30 @@ class ArticalController {
                 }
             });
         };
+        this.getArticalsByObject = (req, res) => {
+            if (req.body.warehouses != 'no') {
+                artical_1.default.find({ 'company': req.body.company, 'pricesAndState.warehouseRegisterName': { $in: [req.body.warehouse] } }, (err, articals) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log(articals.length);
+                        res.json(articals);
+                    }
+                });
+            }
+            else {
+                artical_1.default.find({ 'company': req.body.company, 'pricesAndState.warehouseRegisterName': { $in: [req.body.name] } }, (err, articals) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log(articals.length);
+                        res.json(articals);
+                    }
+                });
+            }
+        };
     }
 }
 exports.ArticalController = ArticalController;

@@ -29,10 +29,20 @@
             <ng-container *ngFor="let row of mapDepartment.get(currentDepartment).matrix; let i = index">
                 <tr class="tableRow">
                     <ng-container *ngFor="let column of row; let j = index">
-                        <td class="field" (click)="addTableToFields(i, j)" [ngClass]="{'fillTable' : column.mark == 't'}" (keypress)="onKeypressEvent($event)">
-                            <img class="rectImage" [hidden]="column.mark == 't'" src="/assets/polje.jpg">
-                            <p [hidden]="column.mark != 't'">{{column.tableName}}</p>
-                        </td>
+                        <ng-container *ngIf="column.mark != 'f'">
+                            <ng-container *ngIf="column.mark == 't'">
+                                <td class="field fillTable" (click)="addTableToFields(i, j)" [colSpan]="column.width" [rowSpan]="column.height" >
+                                    <img class="rectImage" [hidden]="column.mark == 't'" src="/assets/polje.jpg">
+                                    <p>{{column.tableName}}</p>
+                                </td>
+                            </ng-container>
+                            <ng-container *ngIf="column.mark != 't'">
+                                <td class="field" (click)="addTableToFields(i, j)" [colSpan]="column.width" [rowSpan]="column.height">
+                                    <img class="rectImage" [hidden]="column.mark == 't' || column.mark =='c'" src="/assets/polje.jpg">
+                                </td>
+                            </ng-container>
+    
+                        </ng-container>
                     </ng-container>
                 </tr>
             </ng-container>
@@ -41,15 +51,17 @@
             <ng-container *ngFor="let row of mapDepartment.get(currentDepartment).matrixCircles; let i = index">
                 <tr class="tableRow">
                     <ng-container *ngFor="let column of row; let j = index">
-                        <ng-container *ngIf="column.mark == 'c'">
-                            <td class="circleField" (click)="addTableToFields(i, j)" [colSpan]="column.width" [rowSpan]="column.height">
-                                <img class="image" src="/assets/circle.png">
-                                <p class="tableName" [hidden]="column.mark != 'c'">{{column.tableName}}</p>
-                            </td>
-                        </ng-container>
-                        <ng-container *ngIf="column.mark != 'c'">
-                            <td class="field" (click)="addTableToFields(i, j)">
-                            </td>
+                        <ng-container *ngIf="column.mark != 'f'">
+                            <ng-container *ngIf="column.mark == 'c'">
+                                <td class="circleField" (click)="addTableToFields(i, j)" [colSpan]="column.width" [rowSpan]="column.height">
+                                    <img class="image" src="/assets/circle.png">
+                                    <p class="tableName">{{column.tableName}}</p>
+                                </td>
+                            </ng-container>
+                            <ng-container *ngIf="column.mark != 'c'">
+                                <td class="field" (click)="addTableToFields(i, j)" [colSpan]="column.width" [rowSpan]="column.height">
+                                </td>
+                            </ng-container>
                         </ng-container>
                     </ng-container>
                 </tr>

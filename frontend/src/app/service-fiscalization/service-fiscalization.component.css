@@ -45,6 +45,7 @@
     background-image: url("/assets/polje.jpg");
     background-position: 50% 50%;
     position: relative;
+    pointer-events: all;
 }
 
 .tableName{
@@ -68,4 +69,12 @@
 .secondTable{
     z-index: 10;
     pointer-events: none;
+}
+
+.selected{
+    background-color: rgb(14, 206, 78);
+}
+
+.selectedCircle img{
+    background-color: rgb(14, 206, 78);
 }

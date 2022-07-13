@@ -8,6 +8,8 @@ export class Department{
     matrix : {
         tableName : string
         mark : string
+        width : number
+        height : number
     }[][]
     matrixCircles : {
         tableName : string

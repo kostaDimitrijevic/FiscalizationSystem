@@ -18,6 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ArticalArrangementComponent } from './artical-arrangement/artical-arrangement.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableArrangementComponent } from './table-arrangement/table-arrangement.component';
+import { FiscalizationComponent } from './fiscalization/fiscalization.component';
+import { ServiceFiscalizationComponent } from './service-fiscalization/service-fiscalization.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { TableArrangementComponent } from './table-arrangement/table-arrangement
     ShowInfoPageComponent,
     GoodsAndServicesComponent,
     ArticalArrangementComponent,
-    TableArrangementComponent
+    TableArrangementComponent,
+    FiscalizationComponent,
+    ServiceFiscalizationComponent
   ],
   imports: [
     BrowserModule,
