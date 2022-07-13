@@ -42,6 +42,7 @@ export class CompanyPageComponent implements OnInit {
     this.isRobe = true;
     this.isArtikal = false;
     this.isRaspored = false;
+    this.isRacun = false;
   }
   showPodaci(show : string){
     this.isNarucioci = false;

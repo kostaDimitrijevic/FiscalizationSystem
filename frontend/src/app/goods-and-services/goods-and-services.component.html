@@ -190,14 +190,27 @@
                         </tr>
                         <tr>
                             <td>
-                                <select [(ngModel)] = "warehouseRegisterName" >
-                                    <ng-container *ngFor="let warehouse of warehouses">
-                                        <option value={{warehouse.name}}>{{warehouse.name}}</option>
-                                    </ng-container>
-                                    <ng-container *ngFor="let register of companyInfo.cashRegisters">
-                                        <option value={{register.registerName}}>{{register.registerName}}</option>
-                                    </ng-container>                                
-                                </select>
+                                <ng-container *ngIf="companyInfo.category == 'Ugostiteljski objekat'">
+                                    <select [(ngModel)] = "warehouseRegisterName" >
+                                        <ng-container *ngFor="let warehouse of warehouses">
+                                            <option value={{warehouse.name}}>{{warehouse.name}}</option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let department of companyInfo.departments">
+                                            <option value={{department.departmentName}}>{{department.departmentName}}</option>
+                                        </ng-container>                                
+                                    </select>
+                                </ng-container>
+                                <ng-container *ngIf="companyInfo.category == 'Prodavnica'">
+                                    <select [(ngModel)] = "warehouseRegisterName" >
+                                        <ng-container *ngFor="let warehouse of warehouses">
+                                            <option value={{warehouse.name}}>{{warehouse.name}}</option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let register of companyInfo.cashRegisters">
+                                            <option value={{register.registerName}}>{{register.registerName}}</option>
+                                        </ng-container>                                
+                                    </select>
+                                </ng-container>
+
                             </td>
                             <td>
                                 <input type="text" [(ngModel)]="purchasePrice">

@@ -19,9 +19,7 @@
             <p class="head"></p>
         </div>
     </div>
-    <br>
-    <button class="btn btn-dark btn-lg"></button>
-    <br>
+
     <div class="row parent mt-2" id="arrange" *ngIf="current">
         <table class="firstTable">
             <ng-container *ngFor="let row of mapDepartment.get(currentDepartment).matrix; let i = index">
@@ -29,7 +27,7 @@
                     <ng-container *ngFor="let column of row; let j = index">
                         <ng-container *ngIf="column.mark != 'f'">
                             <ng-container *ngIf="column.mark == 't'">
-                                <td class="field fillTable" [colSpan]="column.width" [rowSpan]="column.height" (click)="selectTable(currentDepartment, column.tableName)" [ngClass]="{'selected' : mapSelectedTables.get(column.tableName)}">
+                                <td class="field fillTable" [colSpan]="column.width" [rowSpan]="column.height" (click)="openContent(content, currentDepartment, column.tableName)" [ngClass]="{'selected' : mapSelectedTables.get(column.tableName)}">
                                     <img class="rectImage" [hidden]="column.mark == 't'" src="/assets/polje.jpg">
                                     <p>{{column.tableName}}</p>
                                 </td>
@@ -51,7 +49,7 @@
                     <ng-container *ngFor="let column of row; let j = index">
                         <ng-container *ngIf="column.mark != 'f'">
                             <ng-container *ngIf="column.mark == 'c'">
-                                <td class="circleField" [colSpan]="column.width" [rowSpan]="column.height" (click)="selectTable(currentDepartment, column.tableName)" [ngClass]="{'selectedCircle' : mapSelectedTables.get(column.tableName)}">
+                                <td class="circleField" [colSpan]="column.width" [rowSpan]="column.height" (click)="openContent(content, currentDepartment, column.tableName)" [ngClass]="{'selectedCircle' : mapSelectedTables.get(column.tableName)}">
                                     <img class="image" src="/assets/circle.png">
                                     <p class="tableName">{{column.tableName}}</p>
                                 </td>
@@ -66,23 +64,78 @@
             </ng-container>
         </table>
     </div>
+
     <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Bill for table: {{currentlySelectedTable}}</h4>
+        </div>
+        <div class="modal-body">
+            <ng-container *ngIf="this.mapSelectedTables.has(this.currentlySelectedTable)">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <th>Artical</th>
+                        <th>Artical code</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let artical of objectsArticals; let i = index">
+                            <td>{{artical.articalName}}</td>
+                            <td>{{artical.articalCode}}</td>
+                            <td>{{data[i].price}}</td>
+                            <td>{{data[i].quantity}}</td>
+                            <td><input class="form-control" type="text" [(ngModel)]="this.mapSelectedTables.get(this.currentlySelectedTable).amounts[i]"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button class="btn btn-lg btn-dark" (click)="makeBill()">Make bill</button>
+                <br>
+                <br>
+                <p style="font-weight: bold; font-size: medium;">Amount to pay: {{this.mapSelectedTables.get(this.currentlySelectedTable).billPrice}}</p>
+                <br>
+                <h4>Payment method: </h4>
+                <select name="paymentMethod" [(ngModel)]="this.mapSelectedTables.get(this.currentlySelectedTable).paymentMethod">
+                    <option value="gotovina">Gotovina</option>
+                    <option value="kartica">Kartica</option>
+                    <option value="cek">Cek</option>
+                    <option value="virman">Virman</option>
+                </select>
+            </ng-container>
+            <ng-container *ngIf="success && !this.mapSelectedTables.has(this.currentlySelectedTable)">
+                <p style="font-size: medium; font-weight: bold; color: green">Payment successfull</p>
+            </ng-container>
+            <ng-container *ngIf="success && paymentMethod =='gotovina'">
+                <br>
+                <p style="font-size: medium; font-weight: bold;">Return amount: {{returnAmount}}</p>
+            </ng-container>
+            <br>
+            <br>
+            <button class="btn btn-dark btn-lg mb-5" [hidden]="!showCloseBill" (click)="open(contentPayment)">Close bill</button>
+        </div> 
+
+        <div class="modal-footer"> 
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Finish</button>
+        </div>
+    </ng-template>
+    <ng-template #contentPayment let-modal>
         <div class="modal-header">
           <h4 class="modal-title" id="modal-basic-title">Payment</h4>
         </div>
-        <ng-container *ngIf="paymentMethod == 'gotovina'">
+        <ng-container *ngIf="this.mapSelectedTables.get(this.currentlySelectedTable).paymentMethod == 'gotovina'">
             <div class="modal-body">
                 <form>
                     <Label>Paid amount:</Label>
-                    <input type="text" class="form-control" [(ngModel)]="paidAmount">
+                    <input type="text" class="form-control" [(ngModel)]="this.mapSelectedTables.get(this.currentlySelectedTable).paidAmount" [ngModelOptions]="{standalone: true}">
                     <br>
                     <Label>ID number:</Label>
-                    <input type="text" class="form-control" [(ngModel)]="IDNumber">
-                    <br>
-                    <p style="font-size: medium; font-weight: bold;">Return amount: {{returnAmount}}</p>
-                    <br>
+                    <input type="text" class="form-control" [(ngModel)]="this.mapSelectedTables.get(this.currentlySelectedTable).IDNumber" [ngModelOptions]="{standalone: true}">
                     <ng-container *ngIf="notEnough">
                         <p style="font-size: medium; font-weight: bold; color: red">Error: more money needed</p>
+                    </ng-container>
+                    <ng-container *ngIf="success">
+                        <p style="font-size: medium; font-weight: bold; color: green">Payment successfull</p>
                     </ng-container>
 
                     <br>
@@ -90,36 +143,56 @@
                 </form>
             </div>
         </ng-container>
-        <ng-container *ngIf="paymentMethod == 'cek'">
+        <ng-container *ngIf="this.mapSelectedTables.get(this.currentlySelectedTable).paymentMethod == 'cek'">
             <div class="modal-body">
-                <form>
-                    <Label class="form-label">Firstname:</Label>
-                    <input type="text" class="form-control" [(ngModel)]="firstname">
+                <form [formGroup]="billForm">
+                    <div class="form-group">
+                        <Label class="form-label">Firstname:</Label>
+                        <input type="text" class="form-control" [(ngModel)]="this.mapSelectedTables.get(this.currentlySelectedTable).firstname" formControlName="firstname"
+                        [class.is-invalid] = "billForm.controls['firstname'].touched && !billForm.controls['firstname'].valid"
+                        [class.is-valid] = "billForm.controls['firstname'].valid">
+                    </div>
                     <br>
-                    <Label class="form-label">Lastname:</Label>
-                    <input type="text" class="form-control" [(ngModel)]="lastname">
+                    <div class="form-group">
+                        <Label class="form-label">Lastname:</Label>
+                        <input type="text" class="form-control" [(ngModel)]="this.mapSelectedTables.get(this.currentlySelectedTable).lastname" formControlName="lastname"
+                        [class.is-invalid] = "billForm.controls['lastname'].touched && !billForm.controls['lastname'].valid"
+                        [class.is-valid] = "billForm.controls['lastname'].valid">
+                    </div>
                     <br>
-                    <Label class="form-label">ID number:</Label>
-                    <input type="text" class="form-control" [(ngModel)]="IDNumber">
+                    <div class="form-group">
+                        <Label class="form-label">ID number:</Label>
+                        <input type="text" class="form-control" [(ngModel)]="this.mapSelectedTables.get(this.currentlySelectedTable).IDNumber" formControlName="IDnumber"
+                        [class.is-invalid] = "billForm.controls['IDnumber'].touched && !billForm.controls['IDnumber'].valid"
+                        [class.is-valid] = "billForm.controls['IDnumber'].valid">
+                    </div>
                     <br>
-                    <button class="btn btn-dark">Bill</button>
+                    <button class="btn btn-dark" [disabled]="billForm.controls['IDnumber'].invalid || billForm.controls['firstname'].invalid || billForm.controls['lastname'].invalid" (click)="bill()">Bill</button>
                 </form>
             </div>
         </ng-container>
-        <ng-container *ngIf="paymentMethod == 'kartica'">
+        <ng-container *ngIf="this.mapSelectedTables.get(this.currentlySelectedTable).paymentMethod == 'kartica'">
             <div class="modal-body">
-                <form>
-                    <Label class="form-label">ID number:</Label>
-                    <input type="text" class="form-control" [(ngModel)]="IDNumber">
+                <form [formGroup]="billForm">
+                    <div class="form-group">
+                        <Label class="form-label">ID number:</Label>
+                        <input type="text" class="form-control" [(ngModel)]="this.mapSelectedTables.get(this.currentlySelectedTable).IDNumber" formControlName="IDnumber"
+                        [class.is-invalid] = "billForm.controls['IDnumber'].touched && !billForm.controls['IDnumber'].valid"
+                        [class.is-valid] = "billForm.controls['IDnumber'].valid">
+                    </div>
                     <br>
-                    <Label class="form-label">Bill slip:</Label>
-                    <input type="text" class="form-control" [(ngModel)]="billSlip">
+                    <div class="form-group">
+                        <Label class="form-label">Bill slip:</Label>
+                        <input type="text" class="form-control" [(ngModel)]="this.mapSelectedTables.get(this.currentlySelectedTable).billSlip" formControlName="billSlip"
+                        [class.is-invalid] = "billForm.controls['billSlip'].touched && !billForm.controls['billSlip'].valid"
+                        [class.is-valid] = "billForm.controls['billSlip'].valid">
+                    </div>
                     <br>
-                    <button class="btn btn-dark">Bill</button>
+                    <button class="btn btn-dark" [disabled]="billForm.controls['IDnumber'].invalid || billForm.controls['billSlip'].invalid" (click)="bill()">Bill</button>
                 </form>
             </div>
         </ng-container>
-        <ng-container *ngIf="paymentMethod == 'virman'">
+        <ng-container *ngIf="this.mapSelectedTables.get(this.currentlySelectedTable).paymentMethod == 'virman'">
             <div class="modal-body">
                 <select name="narucioc mb-3">
                     <ng-container *ngFor="let nar of companyInfo.orderers">
@@ -127,7 +200,7 @@
                     </ng-container>
                 </select>
                 <br>
-                <button class="btn btn-dark">Bill</button>
+                <button class="btn btn-dark" (click)="bill()">Bill</button>
             </div>
         </ng-container>
        

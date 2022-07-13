@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArticalService } from '../artical.service';
 import { CompanyService } from '../company.service';
@@ -14,6 +15,7 @@ import { Department } from '../models/department';
 export class ServiceFiscalizationComponent implements OnInit {
 
   constructor(private articalService : ArticalService, private modalService : NgbModal, private companyService: CompanyService) { 
+    this.createForm()
   }
 
   ngOnInit(): void {
@@ -35,14 +37,14 @@ export class ServiceFiscalizationComponent implements OnInit {
   mapSelectedTables = new Map<string, {
                                         billOpen : boolean
                                         billClosed : boolean
-                                        table : {
-                                          name : string
-                                          width : number
-                                          height : number
-                                          row : number
-                                          column : number
-                                          shape : string
-                                        }
+                                        billPrice : Number
+                                        paidAmount : Number
+                                        paymentMethod : string
+                                        firstname: String
+                                        lastname: String
+                                        IDNumber: String
+                                        billSlip: string    
+                                        amounts : Number []
                                       }>()
 
   warehouseName : string
@@ -56,18 +58,23 @@ export class ServiceFiscalizationComponent implements OnInit {
   objectsArticals : Artical []
   show = false
   showCloseBill = false
-  paymentMethod = "Gotovina"
+  paymentMethod = "gotovina"
   returnAmount : Number
   notEnough = false
+  success = false  
 
-  billPrice : Number
+  billForm : FormGroup
+  
+  currentlySelectedTable : string
 
-  paidAmount = 0
-  firstname: String
-  lastname: String
-  IDNumber: String
-  billSlip: string                                      
-
+  createForm(){
+    this.billForm = new FormGroup({
+      firstname : new FormControl('', [Validators.required]),
+      lastname : new FormControl('', [Validators.required]),
+      IDnumber : new FormControl('', [Validators.required]),
+      billSlip : new FormControl('', [Validators.required])
+    })
+  }
 
   addExistingDepartments(){
     this.companyInfo.departments.forEach(element => {
@@ -139,26 +146,35 @@ export class ServiceFiscalizationComponent implements OnInit {
       if(element.departmentName == currentDepartment){
         element.tables.forEach(table => {
           if(table.name == tableName){
-            this.mapSelectedTables.set(tableName, {billOpen : false, billClosed : false, table : table})
+            if(!this.mapSelectedTables.has(tableName)){
+              this.mapSelectedTables.set(tableName, {billOpen : false, billClosed : false, paymentMethod : "gotovina", paidAmount : 0, billPrice : 0, firstname : "", billSlip : "", lastname : "", IDNumber : "", amounts : []})
+            }
+            this.currentlySelectedTable = tableName
           }
         });
       }
     });
   }
 
-  open(content) {
+  openContent(content, currentDepartment, tableName){
+    this.success = false
+    this.notEnough = false
+    this.selectTable(currentDepartment, tableName)
+    this.showArticals()
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+  }
+  open(content){
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
   }
 
   
   showArticals(){
-    this.articalService.getArticalsByObject(localStorage.getItem('username'), this.warehouseName, this.registerName).subscribe((articals : Artical[]) => {
+    this.articalService.getArticalsByObject(localStorage.getItem('username'), this.currentDepartment, 'no').subscribe((articals : Artical[]) => {
       this.objectsArticals = articals
-      this.show = true
-      
+
       this.objectsArticals.forEach((element, index) => {
         this.data.push({quantity : 0, price : 0})
-        this.amounts.push(0)
+        // this.mapSelectedTables.get(this.currentlySelectedTable).amounts.push(0)
         element.pricesAndState.forEach(el =>{
           this.data[index].quantity = this.data[index].quantity.valueOf() + el.currentStockStatus.valueOf()
           
@@ -172,21 +188,30 @@ export class ServiceFiscalizationComponent implements OnInit {
   }
 
   makeBill(){
-    this.billPrice = 0 
-    this.amounts.forEach((amount, index) => {
-      this.billPrice = this.billPrice.valueOf() + amount.valueOf() * this.data[index].price.valueOf()
+    this.mapSelectedTables.get(this.currentlySelectedTable).amounts.forEach((amount, index) => {
+      this.mapSelectedTables.get(this.currentlySelectedTable).billPrice = this.mapSelectedTables.get(this.currentlySelectedTable).billPrice.valueOf() + amount.valueOf() * this.data[index].price.valueOf()
     });
 
     this.showCloseBill = true
   }
 
   bill(){
-    this.returnAmount = 0
-    this.returnAmount = this.paidAmount.valueOf() - this.billPrice.valueOf()
-    
-    if(this.returnAmount.valueOf() < 0){
-      this.notEnough = true
+    this.paymentMethod = this.mapSelectedTables.get(this.currentlySelectedTable).paymentMethod
+    if(this.paymentMethod == 'gotovina'){
+      this.returnAmount = 0
+      this.returnAmount = this.mapSelectedTables.get(this.currentlySelectedTable).paidAmount.valueOf() - this.mapSelectedTables.get(this.currentlySelectedTable).billPrice.valueOf()
+      
+      if(this.returnAmount.valueOf() < 0){
+        this.notEnough = true
+      }
+      else{
+        this.success = true
+        this.mapSelectedTables.delete(this.currentlySelectedTable)
+      }
     }
-
+    else{
+      this.success = true
+      this.mapSelectedTables.delete(this.currentlySelectedTable)
+    }
   }
 }
