@@ -172,6 +172,31 @@ let Company = new Schema({
                 type: String
             }
         }]
+    }],
+    bills : [{
+        date : {
+            type: String
+        },
+        articals : [{
+            type: String
+        }],
+        priceWithPDV : {
+            type: Number
+        },
+        realPrice : {
+            type: Number
+        }
+    }],
+    dailyReports : [{
+        date : {
+            type: String
+        },
+        totalAmount : {
+            type: Number
+        },
+        totalAmountPDV : {
+            type: Number
+        }
     }]
 })
 

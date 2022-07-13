@@ -152,4 +152,27 @@ export class CompanyService {
 
     return this.http.post(`${this.uri}/companies/updateDepartment`, data)
   }
+
+  addBill(username, bill){
+    const data = {
+      username : username,
+      bill : bill
+    }
+    
+    return this.http.post(`${this.uri}/companies/addBill`, data)
+  }
+  getBills(username){
+    const data = {
+      username : username
+    }
+    
+    return this.http.post(`${this.uri}/companies/getBills`, data)
+  }
+  getDailyReports(username){
+    const data = {
+      username : username
+    }
+    
+    return this.http.post(`${this.uri}/companies/getDailyReports`, data)
+  }
 }

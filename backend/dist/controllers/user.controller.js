@@ -47,7 +47,6 @@ class UserController {
         };
         this.addInfo = (req, res) => {
             let username = req.body.username;
-            console.log(req.body.warehouses[0]);
             let warehouses = req.body.warehouses;
             let i = 0;
             warehouses.forEach(warehouse => {

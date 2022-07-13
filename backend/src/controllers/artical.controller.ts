@@ -109,7 +109,6 @@ export class ArticalController{
                     console.log(err)
                 }
                 else{
-                    console.log(articals.length)
                     res.json(articals)
                 }
             })
@@ -120,7 +119,6 @@ export class ArticalController{
                     console.log(err)
                 }
                 else{
-                    console.log(articals.length)
                     res.json(articals)
                 }
             })

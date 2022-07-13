@@ -70,4 +70,15 @@ export class Company{
             shape : string
         }[]
     }[] = []
+    bills : {
+        date : String
+        articals : String[]
+        priceWithPDV : Number
+        realPrice : Number
+    }[] 
+    dailyReports : {
+        date : String
+        totalAmount : Number
+        totalAmountPDV : Number
+    }[]
 }

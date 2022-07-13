@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container-fluid">
     <ng-container *ngIf="!companyInfo.status">
         <p>Waiting for approval</p>
     </ng-container>
     <ng-container *ngIf="companyInfo.status">
         <nav class="navbar navbar-block navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Menu</a>
+            <a class="navbar-brand mr-5" href="#">Menu</a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
@@ -35,6 +35,9 @@
                     <li class="nav-item ml-4" [ngClass]="{'active' : isRacun} ">
                         <div class="nav-link" style="cursor: pointer;" (click)="showRacun()">Izdavanje racuna</div>
                     </li>
+                    <li class="nav-item ml-4" [ngClass]="{'active' : isIzvestaj} ">
+                        <div class="nav-link" style="cursor: pointer;" (click)="showIzvestaj()">Pregled izvestaja</div>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -62,6 +65,9 @@
         </ng-container>
         <ng-container *ngIf="isRacun && companyInfo.category == 'Prodavnica'">
             <app-fiscalization [companyInfo]="companyInfo"></app-fiscalization>
+        </ng-container>
+        <ng-container *ngIf="isIzvestaj">
+            <app-report></app-report>
         </ng-container>
     </ng-container>
     

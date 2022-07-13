@@ -20,6 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableArrangementComponent } from './table-arrangement/table-arrangement.component';
 import { FiscalizationComponent } from './fiscalization/fiscalization.component';
 import { ServiceFiscalizationComponent } from './service-fiscalization/service-fiscalization.component';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ServiceFiscalizationComponent } from './service-fiscalization/service-f
     ArticalArrangementComponent,
     TableArrangementComponent,
     FiscalizationComponent,
-    ServiceFiscalizationComponent
+    ServiceFiscalizationComponent,
+    ReportComponent
   ],
   imports: [
     BrowserModule,

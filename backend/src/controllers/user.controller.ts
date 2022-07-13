@@ -56,8 +56,6 @@ export class UserController{
     addInfo = (req: express.Request, res: express.Response) => {
         let username = req.body.username
 
-        console.log(req.body.warehouses[0])
-
         let warehouses = req.body.warehouses
 
         let i = 0;

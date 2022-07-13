@@ -83,7 +83,12 @@
                         <tr *ngFor="let artical of objectsArticals; let i = index">
                             <td>{{artical.articalName}}</td>
                             <td>{{artical.articalCode}}</td>
-                            <td>{{data[i].price}}</td>
+                            <ng-container *ngIf="companyInfo.isPDV">
+                                <td>{{data[i].pricePDV}}</td>
+                            </ng-container>
+                            <ng-container *ngIf="!companyInfo.isPDV">
+                                <td>{{data[i].price}}</td>
+                            </ng-container>
                             <td>{{data[i].quantity}}</td>
                             <td><input class="form-control" type="text" [(ngModel)]="this.mapSelectedTables.get(this.currentlySelectedTable).amounts[i]"></td>
                         </tr>

@@ -217,6 +217,69 @@ class CompanyController {
                 }
             });
         };
+        this.addBill = (req, res) => {
+            company_1.default.findOneAndUpdate({ 'username': req.body.username }, { $push: { 'bills': req.body.bill } }, (err, comp) => {
+                if (err) {
+                    console.log(err);
+                    res.status(400).json({ 'message': 'error' });
+                }
+                else {
+                    if (comp.dailyReports.length > 0) {
+                        let found = false;
+                        comp.dailyReports.forEach(report => {
+                            if (report.date == req.body.bill.date) {
+                                found = true;
+                                report.totalAmount += req.body.bill.realPrice;
+                                report.totalAmountPDV += req.body.bill.priceWithPDV;
+                                company_1.default.updateOne({ 'username': req.body.username, 'dailyReports.date': req.body.bill.date }, { $set: { 'dailyReports.totalAmount': report.totalAmount, 'dailyReports.totalAmountPDV': report.totalAmountPDV } }, (err) => {
+                                    if (err) {
+                                        console.log(err);
+                                        res.status(400).json({ 'message': 'error' });
+                                    }
+                                });
+                            }
+                        });
+                        if (!found) {
+                            company_1.default.updateOne({ 'username': req.body.username }, { $set: { 'dailyReports.date': req.body.bill.date, 'dailyReports.totalAmount': req.body.bill.realPrice, 'dailyReports.totalAmountPDV': req.body.bill.priceWithPDV } }, (err) => {
+                                if (err) {
+                                    console.log(err);
+                                    res.status(400).json({ 'message': 'error' });
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        company_1.default.updateOne({ 'username': req.body.username }, { $set: { 'dailyReports.date': req.body.bill.date, 'dailyReports.totalAmount': req.body.bill.realPrice, 'dailyReports.totalAmountPDV': req.body.bill.priceWithPDV } }, (err) => {
+                            if (err) {
+                                console.log(err);
+                                res.status(400).json({ 'message': 'error' });
+                            }
+                        });
+                    }
+                    res.status(200).json({ 'message': 'bill added' });
+                }
+            });
+        };
+        this.getBills = (req, res) => {
+            company_1.default.findOne({ 'username': req.body.username }, (err, comp) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    res.json(comp.bills);
+                }
+            });
+        };
+        this.getDailyReports = (req, res) => {
+            company_1.default.findOne({ 'username': req.body.username }, (err, comp) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    res.json(comp.dailyReports);
+                }
+            });
+        };
     }
 }
 exports.CompanyController = CompanyController;

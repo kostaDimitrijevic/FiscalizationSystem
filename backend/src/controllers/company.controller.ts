@@ -227,4 +227,74 @@ export class CompanyController{
             }
         })
     }
+
+    addBill = (req: express.Request, res: express.Response) => {
+
+        Company.findOneAndUpdate({'username' : req.body.username}, {$push : {'bills' : req.body.bill}}, (err, comp) =>{
+            if(err) {
+                console.log(err)
+                res.status(400).json({'message': 'error'})
+            }
+            else{
+
+                if(comp.dailyReports.length > 0){
+                    let found = false
+                    comp.dailyReports.forEach(report => {
+                        if(report.date == req.body.bill.date){
+                            found = true
+                            report.totalAmount += req.body.bill.realPrice
+                            report.totalAmountPDV += req.body.bill.priceWithPDV
+                            Company.updateOne({'username' : req.body.username, 'dailyReports.date' : req.body.bill.date}, {$set : {'dailyReports.totalAmount' : report.totalAmount, 'dailyReports.totalAmountPDV' : report.totalAmountPDV}}, (err) => {
+                                if(err) {
+                                    console.log(err)
+                                    res.status(400).json({'message': 'error'})
+                                }
+                            })
+                        }
+                    });
+
+                    if(!found){
+                        Company.updateOne({'username' : req.body.username}, {$set : {'dailyReports.date' : req.body.bill.date, 'dailyReports.totalAmount' : req.body.bill.realPrice, 'dailyReports.totalAmountPDV' : req.body.bill.priceWithPDV}}, (err) => {
+                            if(err) {
+                                console.log(err)
+                                res.status(400).json({'message': 'error'})
+                            }
+                        })
+                    }
+                }
+                else{
+                    Company.updateOne({'username' : req.body.username}, {$set : {'dailyReports.date' : req.body.bill.date, 'dailyReports.totalAmount' : req.body.bill.realPrice, 'dailyReports.totalAmountPDV' : req.body.bill.priceWithPDV}}, (err) => {
+                        if(err) {
+                            console.log(err)
+                            res.status(400).json({'message': 'error'})
+                        }
+                    })
+                }
+                res.status(200).json({'message': 'bill added'})
+            }
+        })
+    }
+
+    getBills = (req: express.Request, res: express.Response) => {
+        
+        Company.findOne({'username' : req.body.username}, (err, comp) => {
+            if(err){
+                console.log(err)
+            }
+            else{
+                res.json(comp.bills)
+            }
+        })
+    }
+
+    getDailyReports = (req: express.Request, res: express.Response) => {
+        Company.findOne({'username' : req.body.username}, (err, comp) => {
+            if(err){
+                console.log(err)
+            }
+            else{
+                res.json(comp.dailyReports)
+            }
+        })
+    }
 }

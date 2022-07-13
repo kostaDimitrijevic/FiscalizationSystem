@@ -27,6 +27,7 @@ export class CompanyPageComponent implements OnInit {
   isArtikal = false;
   isRaspored = false;
   isRacun = false;
+  isIzvestaj = false;
 
   showNarucioci(){
     this.isNarucioci = true;
@@ -35,6 +36,7 @@ export class CompanyPageComponent implements OnInit {
     this.isArtikal = false;
     this.isRaspored = false;
     this.isRacun = false;
+    this.isIzvestaj = false;
   }
   showRobe(){
     this.isNarucioci = false;
@@ -43,6 +45,7 @@ export class CompanyPageComponent implements OnInit {
     this.isArtikal = false;
     this.isRaspored = false;
     this.isRacun = false;
+    this.isIzvestaj = false;
   }
   showPodaci(show : string){
     this.isNarucioci = false;
@@ -51,6 +54,7 @@ export class CompanyPageComponent implements OnInit {
     this.isArtikal = false;
     this.isRaspored = false;
     this.isRacun = false;
+    this.isIzvestaj = false;
 
     this.show = show;
   }
@@ -62,6 +66,7 @@ export class CompanyPageComponent implements OnInit {
     this.isArtikal = true;
     this.isRaspored = false;
     this.isRacun = false;
+    this.isIzvestaj = false;
   }
 
   showRaspored(){
@@ -71,6 +76,7 @@ export class CompanyPageComponent implements OnInit {
     this.isArtikal = false;
     this.isRaspored = true;
     this.isRacun = false;
+    this.isIzvestaj = false;
   }
   showRacun(){
     this.isNarucioci = false;
@@ -79,5 +85,15 @@ export class CompanyPageComponent implements OnInit {
     this.isArtikal = false;
     this.isRaspored = false;
     this.isRacun = true;
+    this.isIzvestaj = false;
+  }
+  showIzvestaj(){
+    this.isNarucioci = false;
+    this.isPrikaz = false;
+    this.isRobe = false;
+    this.isArtikal = false;
+    this.isRaspored = false;
+    this.isRacun = false;
+    this.isIzvestaj = true;
   }
 }

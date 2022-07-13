@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -43,7 +44,7 @@ export class ServiceFiscalizationComponent implements OnInit {
                                         firstname: String
                                         lastname: String
                                         IDNumber: String
-                                        billSlip: string    
+                                        billSlip: string
                                         amounts : Number []
                                       }>()
 
@@ -51,6 +52,7 @@ export class ServiceFiscalizationComponent implements OnInit {
   registerName : string
   data : {
     quantity : Number,
+    pricePDV : Number,
     price : Number
   }[] = []
   amounts : Number [] = []
@@ -173,15 +175,18 @@ export class ServiceFiscalizationComponent implements OnInit {
       this.objectsArticals = articals
 
       this.objectsArticals.forEach((element, index) => {
-        this.data.push({quantity : 0, price : 0})
-        // this.mapSelectedTables.get(this.currentlySelectedTable).amounts.push(0)
+        this.data.push({quantity : 0, pricePDV : 0, price : 0})
+        this.mapSelectedTables.get(this.currentlySelectedTable).amounts.push(0)
         element.pricesAndState.forEach(el =>{
           this.data[index].quantity = this.data[index].quantity.valueOf() + el.currentStockStatus.valueOf()
           
           if(this.companyInfo.isPDV){
-            this.data[index].price = el.sellingPrice.valueOf() * ((100 + element.taxRate.valueOf()) / 100) 
+            this.data[index].pricePDV = el.sellingPrice.valueOf() * ((100 + element.taxRate.valueOf()) / 100)
+            this.data[index].price = el.sellingPrice.valueOf()
           }
-
+          else{
+            this.data[index].price = el.sellingPrice.valueOf()
+          }
         })
       });
     })
@@ -205,6 +210,44 @@ export class ServiceFiscalizationComponent implements OnInit {
         this.notEnough = true
       }
       else{
+        let table = this.mapSelectedTables.get(this.currentlySelectedTable)
+        let articals : String[] = []
+        let priceWithPDV = 0
+        let realPrice = 0
+        if(this.companyInfo.isPDV){
+          priceWithPDV = table.billPrice.valueOf()
+          this.objectsArticals.forEach((art, index) => {
+            if(table.amounts[index] > 0){
+              realPrice = realPrice + this.data[index].price.valueOf()  
+            }
+          });
+        }
+        else{
+          realPrice = table.billPrice.valueOf()
+          priceWithPDV = realPrice
+        }
+        this.objectsArticals.forEach((art, index) => {
+          if(table.amounts[index] > 0){
+            articals.push(art.articalName)      
+          }
+        });
+
+        let today = new Date();
+        
+
+        this.companyService.addBill(localStorage.getItem('username'), {
+          date: today.toDateString(),
+          articals: articals,
+          priceWithPDV: priceWithPDV,
+          realPrice : realPrice
+        }).subscribe((res) => {
+          if(res['message'] == 'bill added'){
+            alert("Uspesno dodat racun")
+          }
+          else{
+            alert("GRESKA")
+          }
+        })
         this.success = true
         this.mapSelectedTables.delete(this.currentlySelectedTable)
       }
@@ -214,4 +257,5 @@ export class ServiceFiscalizationComponent implements OnInit {
       this.mapSelectedTables.delete(this.currentlySelectedTable)
     }
   }
+
 }

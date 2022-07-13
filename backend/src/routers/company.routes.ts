@@ -57,4 +57,13 @@ companiesRouter.route('/addDepartment').post(
 companiesRouter.route('/updateDepartment').post(
     (req, res) => new CompanyController().updateDepartment(req, res)
 )
+companiesRouter.route('/addBill').post(
+    (req, res) => new CompanyController().addBill(req, res)
+)
+companiesRouter.route('/getBills').post(
+    (req, res) => new CompanyController().getBills(req, res)
+)
+companiesRouter.route('/getDailyReports').post(
+    (req, res) => new CompanyController().getDailyReports(req, res)
+)
 export default companiesRouter;

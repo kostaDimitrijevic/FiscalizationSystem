@@ -108,7 +108,6 @@ class ArticalController {
                         console.log(err);
                     }
                     else {
-                        console.log(articals.length);
                         res.json(articals);
                     }
                 });
@@ -119,7 +118,6 @@ class ArticalController {
                         console.log(err);
                     }
                     else {
-                        console.log(articals.length);
                         res.json(articals);
                     }
                 });

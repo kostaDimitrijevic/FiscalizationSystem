@@ -1,0 +1,43 @@
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-8">
+            <table class="table">
+                <thead class="thead thead-dark">
+                    <th>Date</th>
+                    <th>Total amount no PDV</th>
+                    <th>Total amount with PDV</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let report of dailyReports">
+                        <td>{{report.date}}</td>
+                        <td>{{report.totalAmount}}</td>
+                        <td>{{report.totalAmountPDV}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-8">
+            <table class="table">
+                <thead class="thead thead-dark">
+                    <th>Date</th>
+                    <th>Artical</th>
+                    <th>Total amount no PDV</th>
+                    <th>Total amount with PDV</th>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let bill of bills">
+                        <tr *ngFor="let artical of bill.articals">
+                            <td>{{bill.date}}</td>
+                            <td>{{artical}}</td>
+                            <td>{{bill.realPrice}}</td>
+                            <td>{{bill.priceWithPDV}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
