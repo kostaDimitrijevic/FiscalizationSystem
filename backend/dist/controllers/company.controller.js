@@ -280,6 +280,11 @@ class CompanyController {
                 }
             });
         };
+        this.getCompanies = (req, res) => {
+            company_1.default.find({}, (err, companies) => {
+                res.json(companies);
+            });
+        };
     }
 }
 exports.CompanyController = CompanyController;

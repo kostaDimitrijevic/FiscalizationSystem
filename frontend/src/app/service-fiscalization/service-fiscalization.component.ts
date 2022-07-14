@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArticalService } from '../artical.service';
+import { BuyerService } from '../buyer.service';
 import { CompanyService } from '../company.service';
 import { Artical } from '../models/artical';
 import { Company } from '../models/company';
@@ -15,7 +16,7 @@ import { Department } from '../models/department';
 })
 export class ServiceFiscalizationComponent implements OnInit {
 
-  constructor(private articalService : ArticalService, private modalService : NgbModal, private companyService: CompanyService) { 
+  constructor(private articalService : ArticalService, private modalService : NgbModal, private companyService: CompanyService, private buyerService: BuyerService) { 
     this.createForm()
   }
 
@@ -211,6 +212,25 @@ export class ServiceFiscalizationComponent implements OnInit {
       }
       else{
         let table = this.mapSelectedTables.get(this.currentlySelectedTable)
+
+        if(table.IDNumber != ""){
+          let bill = {
+            company : localStorage.getItem('username'),
+            object : this.currentDepartment,
+            price : table.billPrice,
+            paymentMethod : table.paymentMethod
+          }
+
+          this.buyerService.addBillByID(table.IDNumber, bill).subscribe((res) => {
+            if(res['message'] == "bill added"){
+              console.log("uspesno dodat racun kupca")
+            }
+            else{
+              console.log("neuspesno dodat racun kupca")
+            }
+          })
+        }
+
         let articals : String[] = []
         let priceWithPDV = 0
         let realPrice = 0
@@ -253,6 +273,62 @@ export class ServiceFiscalizationComponent implements OnInit {
       }
     }
     else{
+      let table = this.mapSelectedTables.get(this.currentlySelectedTable)
+      if(this.paymentMethod == 'cek' || this.paymentMethod == 'kartica'){
+        let bill = {
+          company : localStorage.getItem('username'),
+          object : this.currentDepartment,
+          price : table.billPrice,
+          paymentMethod : table.paymentMethod
+        }
+
+        this.buyerService.addBillByID(table.IDNumber, bill).subscribe((res) => {
+          if(res['message'] == "bill added"){
+            console.log("uspesno dodat racun kupca")
+          }
+          else{
+            console.log("neuspesno dodat racun kupca")
+          }
+        })
+      }
+      let articals : String[] = []
+      let priceWithPDV = 0
+      let realPrice = 0
+      if(this.companyInfo.isPDV){
+        priceWithPDV = table.billPrice.valueOf()
+        this.objectsArticals.forEach((art, index) => {
+          if(table.amounts[index] > 0){
+            realPrice = realPrice + this.data[index].price.valueOf()  
+          }
+        });
+      }
+      else{
+        realPrice = table.billPrice.valueOf()
+        priceWithPDV = realPrice
+      }
+      this.objectsArticals.forEach((art, index) => {
+        if(table.amounts[index] > 0){
+          articals.push(art.articalName)      
+        }
+      });
+
+      let today = new Date();
+      
+
+      this.companyService.addBill(localStorage.getItem('username'), {
+        date: today.toDateString(),
+        articals: articals,
+        priceWithPDV: priceWithPDV,
+        realPrice : realPrice
+      }).subscribe((res) => {
+        if(res['message'] == 'bill added'){
+          alert("Uspesno dodat racun")
+        }
+        else{
+          alert("GRESKA")
+        }
+      })
+
       this.success = true
       this.mapSelectedTables.delete(this.currentlySelectedTable)
     }

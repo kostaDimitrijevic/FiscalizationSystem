@@ -21,6 +21,7 @@ import { TableArrangementComponent } from './table-arrangement/table-arrangement
 import { FiscalizationComponent } from './fiscalization/fiscalization.component';
 import { ServiceFiscalizationComponent } from './service-fiscalization/service-fiscalization.component';
 import { ReportComponent } from './report/report.component';
+import { BuyerComponent } from './buyer/buyer.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ReportComponent } from './report/report.component';
     TableArrangementComponent,
     FiscalizationComponent,
     ServiceFiscalizationComponent,
-    ReportComponent
+    ReportComponent,
+    BuyerComponent
   ],
   imports: [
     BrowserModule,

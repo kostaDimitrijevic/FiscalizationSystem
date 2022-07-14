@@ -123,6 +123,11 @@ class ArticalController {
                 });
             }
         };
+        this.getAllArticals = (req, res) => {
+            artical_1.default.find({}, (err, articals) => {
+                res.json(articals);
+            });
+        };
     }
 }
 exports.ArticalController = ArticalController;

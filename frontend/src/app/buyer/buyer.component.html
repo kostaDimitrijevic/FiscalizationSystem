@@ -1,0 +1,76 @@
+<div class="container-fluid">
+    <nav class="navbar navbar-block navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand mr-5" href="#">Menu</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item ml-4" [ngClass]="{'active' : isCompanies} ">
+                    <div class="nav-link" style="cursor: pointer;" (click)="showCompanies()">Pregled preduzeca</div>
+                </li>
+                <li class="nav-item ml-4" [ngClass]="{'active' : isBills} ">
+                    <div class="nav-link" style="cursor: pointer;" (click)="showBill()">Racuni</div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <ng-container *ngIf="isCompanies">
+        <div class="row mt-5 justify-content-center">
+            <input class="search mb-2" placeholder="Search" type="search" [(ngModel)]="searchStr" [ngModelOptions]="{standalone: true}">
+            <button class="btn btn-outline-success mb-1 ml-2" (click)="searchByName()">Search</button>
+        </div>
+        <div class="row mt-2 justify-content-center" >
+            <div class="col-8">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <th>Company</th>
+                        <th>Artical</th>
+                        <th>Minimal price</th>
+                        <th>Available in</th>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let artical of articals">
+                            <tr *ngFor="let pes of artical.pricesAndState">
+                                <td>{{artical.company}}</td>
+                                <td>{{artical.articalName}}</td>
+                                <td>{{pes.purchasePrice}}</td>
+                                <td>{{pes.warehouseRegisterName}}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+    
+    <ng-container *ngIf="isBills">
+        <ng-container *ngIf="showBills">
+            <div class="row mt-5 justify-content-center">
+                <div class="col-8">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <th>Company</th>
+                            <th>Department</th>
+                            <th>Amount</th>
+                            <th>Payment method</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let bill of buyer.bills">
+                                <td>{{bill.company}}</td>
+                                <td>{{bill.object}}</td>
+                                <td>{{bill.price}}</td>
+                                <td>{{bill.paymentMethod}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!showBills">
+            <div class="row mt-5 justify-content-center">
+                <div class="col-8">
+                    <h4>No bills</h4>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+    
+</div>

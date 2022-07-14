@@ -297,4 +297,10 @@ export class CompanyController{
             }
         })
     }
+
+    getCompanies = (req: express.Request, res: express.Response) => {
+        Company.find({}, (err, companies) => {
+            res.json(companies)
+        })
+    }
 }

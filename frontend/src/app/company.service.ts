@@ -175,4 +175,8 @@ export class CompanyService {
     
     return this.http.post(`${this.uri}/companies/getDailyReports`, data)
   }
+
+  getCompanies(){
+    return this.http.get(`${this.uri}/companies/getCompanies`)
+  }
 }

@@ -56,6 +56,7 @@
                 <br>
                 <br>
                 <button class="btn btn-dark btn-lg mb-5" [hidden]="!showCloseBill" (click)="open(content)">Close bill</button>
+                <br>
             </ng-container>
         </div>
         <ng-template #content let-modal>
@@ -66,17 +67,19 @@
                 <div class="modal-body">
                     <form>
                         <Label>Paid amount:</Label>
-                        <input type="text" class="form-control" [(ngModel)]="paidAmount">
+                        <input type="text" class="form-control" [(ngModel)]="paidAmount" [ngModelOptions]="{standalone: true}">
                         <br>
                         <Label>ID number:</Label>
-                        <input type="text" class="form-control" [(ngModel)]="IDNumber">
+                        <input type="text" class="form-control" [(ngModel)]="IDNumber" [ngModelOptions]="{standalone: true}">
                         <br>
                         <p style="font-size: medium; font-weight: bold;">Return amount: {{returnAmount}}</p>
                         <br>
                         <ng-container *ngIf="notEnough">
                             <p style="font-size: medium; font-weight: bold; color: red">Error: more money needed</p>
                         </ng-container>
-
+                        <ng-container *ngIf="success">
+                            <p style="font-size: medium; font-weight: bold; color: green">Payment succeeded</p>
+                        </ng-container>
                         <br>
                         <button class="btn btn-dark" (click)="bill()">Bill</button>
                     </form>

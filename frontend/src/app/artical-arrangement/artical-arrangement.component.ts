@@ -32,7 +32,7 @@ export class ArticalArrangementComponent implements OnInit {
   articals : Artical[] = []
 
   closeResult = '';
-  searchStr : string;
+  searchStr = "";
   categorySelected : String;
   isSub : boolean;
   error = false;
@@ -83,17 +83,24 @@ export class ArticalArrangementComponent implements OnInit {
   }
 
   searchByName(){
-    let regex = new RegExp(this.searchStr)
+    if(this.searchStr != ""){
+      let regex = new RegExp(this.searchStr)
 
-    let searchedArticals : Artical[] = []
-    this.articals.forEach(artical => {
-      if(artical.articalName.match(regex)){
-        searchedArticals.push(artical)
+      let searchedArticals : Artical[] = []
+      this.articals.forEach(artical => {
+        if(artical.articalName.match(regex)){
+          searchedArticals.push(artical)
+        }
+      });
+  
+      if(searchedArticals.length > 0){
+        this.articals = searchedArticals
       }
-    });
-
-    if(searchedArticals.length > 0){
-      this.articals = searchedArticals
+    }
+    else{
+      this.articalService.getArticals(localStorage.getItem('username')).subscribe((articals : Artical[]) => {
+        this.articals = articals
+      })
     }
 
   }

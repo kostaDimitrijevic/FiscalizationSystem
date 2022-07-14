@@ -46,6 +46,9 @@ export class LoginComponent implements OnInit {
             }
           })
         }
+        else{
+          this.router.navigate(['/buyer'])
+        }
       }
       else {
         this.errorDisplay = true;

@@ -66,4 +66,7 @@ companiesRouter.route('/getBills').post(
 companiesRouter.route('/getDailyReports').post(
     (req, res) => new CompanyController().getDailyReports(req, res)
 )
+companiesRouter.route('/getCompanies').get(
+    (req, res) => new CompanyController().getCompanies(req, res)
+)
 export default companiesRouter;

@@ -14,5 +14,6 @@ articalRouter.route('/removeArtical').post((res, req) => new artical_controller_
 articalRouter.route('/addArticalpricesAndStatus').post((res, req) => new artical_controller_1.ArticalController().addArticalpricesAndStatus(res, req));
 articalRouter.route('/addArticalCategory').post((res, req) => new artical_controller_1.ArticalController().addArticalCategory(res, req));
 articalRouter.route('/getArticalsByObject').post((res, req) => new artical_controller_1.ArticalController().getArticalsByObject(res, req));
+articalRouter.route('/getAllArticals').get((res, req) => new artical_controller_1.ArticalController().getAllArticals(res, req));
 exports.default = articalRouter;
 //# sourceMappingURL=artical.routes.js.map

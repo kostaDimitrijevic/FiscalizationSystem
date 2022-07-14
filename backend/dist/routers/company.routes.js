@@ -25,5 +25,6 @@ companiesRouter.route('/updateDepartment').post((req, res) => new company_contro
 companiesRouter.route('/addBill').post((req, res) => new company_controller_1.CompanyController().addBill(req, res));
 companiesRouter.route('/getBills').post((req, res) => new company_controller_1.CompanyController().getBills(req, res));
 companiesRouter.route('/getDailyReports').post((req, res) => new company_controller_1.CompanyController().getDailyReports(req, res));
+companiesRouter.route('/getCompanies').get((req, res) => new company_controller_1.CompanyController().getCompanies(req, res));
 exports.default = companiesRouter;
 //# sourceMappingURL=company.routes.js.map

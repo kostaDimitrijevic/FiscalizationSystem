@@ -124,4 +124,10 @@ export class ArticalController{
             })
         }
     }
+
+    getAllArticals = (req: express.Request, res: express.Response) => {
+        Artical.find({}, (err, articals) => {
+            res.json(articals)
+        })
+    }
 }

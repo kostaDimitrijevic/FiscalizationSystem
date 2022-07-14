@@ -31,5 +31,8 @@ articalRouter.route('/addArticalCategory').post(
 articalRouter.route('/getArticalsByObject').post(
     (res, req) => new ArticalController().getArticalsByObject(res, req)
 )
+articalRouter.route('/getAllArticals').get(
+    (res, req) => new ArticalController().getAllArticals(res, req)
+)
 
 export default articalRouter;

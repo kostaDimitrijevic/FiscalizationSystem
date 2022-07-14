@@ -99,4 +99,8 @@ export class ArticalService {
 
     return this.http.post(`${this.uri}/artical/getArticalsByObject`, data)
   }
+
+  getAllArticals(){
+    return this.http.get(`${this.uri}/artical/getAllArticals`)
+  }
 }
