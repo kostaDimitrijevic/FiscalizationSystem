@@ -4,14 +4,14 @@
             <table class="table">
                 <thead class="thead thead-dark">
                     <th>Date</th>
-                    <th>Total amount no PDV</th>
-                    <th>Total amount with PDV</th>
+                    <th>Total amount</th>
+                    <th>PDV</th>
                 </thead>
                 <tbody>
                     <tr *ngFor="let report of dailyReports">
                         <td>{{report.date}}</td>
                         <td>{{report.totalAmount}}</td>
-                        <td>{{report.totalAmountPDV}}</td>
+                        <td>{{report.totalAmountPDV.valueOf() - report.totalAmount.valueOf()}}</td>
                     </tr>
                 </tbody>
             </table>

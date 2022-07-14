@@ -9,5 +9,10 @@ buyerRouter.route('/addBillByID').post(
 buyerRouter.route('/getBuyer').post(
     (req,res) => new BuyerController().getBuyer(req,res)
 )
-
+buyerRouter.route('/addNewBuyer').post(
+    (req,res) => new BuyerController().addNewBuyer(req,res)
+)
+buyerRouter.route('/changePassword').post(
+    (req, res) => new BuyerController().changePassword(req, res)
+)
 export default buyerRouter;

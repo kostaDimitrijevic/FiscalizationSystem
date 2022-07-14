@@ -154,7 +154,6 @@ export class CompanyController{
     }
 
     addSubcategory = (req: express.Request, res: express.Response) => {
-        console.log(req.body.company)
         Category.findOne({'company' : req.body.company, 'category' : req.body.name}, (err, cat) => {
             let error = false
             cat.subcategories.forEach(subCat => {
@@ -301,6 +300,39 @@ export class CompanyController{
     getCompanies = (req: express.Request, res: express.Response) => {
         Company.find({}, (err, companies) => {
             res.json(companies)
+        })
+    }
+
+    changePassword = (req: express.Request, res: express.Response) => {
+
+        Company.findOneAndUpdate({'username' : req.body.username}, {$set : {'password' : req.body.password}}, (err, comp) => {
+            if(err){
+                console.log(err)
+                res.status(400).json({'message': 'error'})
+            }
+            else{
+                User.findOneAndUpdate({'username' : req.body.username}, {$set : {'password' : req.body.password}}, (err, comp) => {
+                    if(err){
+                        console.log(err)
+                        res.status(400).json({'message': 'error'})
+                    }
+                    else{
+                        res.status(200).json({'message': 'password changed'})
+                    }
+                })
+            }
+        })
+    }
+
+    activateCompany = (req: express.Request, res: express.Response) => {
+        Company.updateOne({'username' : req.body.username}, {$set : {'active' : req.body.active}}, (err) =>{
+            if(err){
+                console.log(err)
+                res.status(400).json({'message': 'error'})
+            }
+            else{
+                res.status(200).json({'message': 'activation changed'})
+            }
         })
     }
 }

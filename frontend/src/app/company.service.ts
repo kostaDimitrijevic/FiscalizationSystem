@@ -179,4 +179,22 @@ export class CompanyService {
   getCompanies(){
     return this.http.get(`${this.uri}/companies/getCompanies`)
   }
+
+  changePassword(username, password){
+    const data = {
+      username : username,
+      password : password
+    }
+
+    return this.http.post(`${this.uri}/companies/changePassword`, data)
+  }
+
+  activateCompany(username, active){
+    const data = {
+      username : username,
+      active : active
+    }
+    
+    return this.http.post(`${this.uri}/companies/activateCompany`, data)
+  }
 }

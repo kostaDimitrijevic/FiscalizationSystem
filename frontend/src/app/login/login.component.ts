@@ -18,7 +18,18 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let added = 0
+    this.companyService.getCompanies().subscribe((companies: Company[] )=>{
+      for (let index = 0; index < companies.length; index++) {
+        if(added < 5 && companies[index].dailyReports.length > 0 && companies[index].bills.length > 0){
+          this.companies.push(companies[index]) 
+          added += 1
+        }
+      }
+    })
   }
+
+  companies : Company[] = []
   loginForm: FormGroup;
 
   username: string;

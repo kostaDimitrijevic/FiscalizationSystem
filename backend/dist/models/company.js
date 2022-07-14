@@ -51,6 +51,9 @@ let Company = new Schema({
     status: {
         type: Boolean
     },
+    active: {
+        type: Boolean
+    },
     infoAddedStatus: {
         type: Boolean
     },

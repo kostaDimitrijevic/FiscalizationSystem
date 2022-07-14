@@ -18,6 +18,7 @@ export class Company{
     registrationNumber: number
     companyLogoPath: String
     status: boolean
+    active: boolean
     infoAddedStatus: Boolean
     activityCode: ActivityCode[] = []
     addedActivityCode: string[]

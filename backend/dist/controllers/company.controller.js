@@ -148,7 +148,6 @@ class CompanyController {
             });
         };
         this.addSubcategory = (req, res) => {
-            console.log(req.body.company);
             category_1.default.findOne({ 'company': req.body.company, 'category': req.body.name }, (err, cat) => {
                 let error = false;
                 cat.subcategories.forEach(subCat => {
@@ -283,6 +282,36 @@ class CompanyController {
         this.getCompanies = (req, res) => {
             company_1.default.find({}, (err, companies) => {
                 res.json(companies);
+            });
+        };
+        this.changePassword = (req, res) => {
+            company_1.default.findOneAndUpdate({ 'username': req.body.username }, { $set: { 'password': req.body.password } }, (err, comp) => {
+                if (err) {
+                    console.log(err);
+                    res.status(400).json({ 'message': 'error' });
+                }
+                else {
+                    user_1.default.findOneAndUpdate({ 'username': req.body.username }, { $set: { 'password': req.body.password } }, (err, comp) => {
+                        if (err) {
+                            console.log(err);
+                            res.status(400).json({ 'message': 'error' });
+                        }
+                        else {
+                            res.status(200).json({ 'message': 'password changed' });
+                        }
+                    });
+                }
+            });
+        };
+        this.activateCompany = (req, res) => {
+            company_1.default.updateOne({ 'username': req.body.username }, { $set: { 'active': req.body.active } }, (err) => {
+                if (err) {
+                    console.log(err);
+                    res.status(400).json({ 'message': 'error' });
+                }
+                else {
+                    res.status(200).json({ 'message': 'activation changed' });
+                }
             });
         };
     }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { BuyerService } from '../buyer.service';
 import { CompanyService } from '../company.service';
 import { Company } from '../models/company';
 import { UserService } from '../user.service';
@@ -11,18 +13,26 @@ import { UserService } from '../user.service';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private service: CompanyService, private userService: UserService) {
-    this.createRegisterForm();
+  constructor(private service: CompanyService, private userService: UserService, private buyerService: BuyerService, private router: Router) {
+    this.createForms();
    }
 
   ngOnInit(): void {
     this.service.getFalseStatusCompanies().subscribe((data: Company[]) => {
       this.companies = data;
     });
-
+    this.service.getCompanies().subscribe((companies : Company[]) =>{
+      this.companyReports = companies
+    })
   }
 
-  companies: Company [] = []  
+  companies: Company [] = []
+  companyReports: Company[] = []
+  activateCompany = true
+  addCompany = false
+  addBuyer = false
+  review = false
+  acceptCompany = false
 
   accept(username){
     this.service.accept(username).subscribe((comp : Company)=>{
@@ -57,6 +67,7 @@ export class AdminComponent implements OnInit {
   }
 
   registerForm: FormGroup;
+  buyerForm: FormGroup;
 
   firstname: String;
   lastname: String;
@@ -74,6 +85,7 @@ export class AdminComponent implements OnInit {
   PIB: String;
   registrationNumber: number;
   status: boolean
+  IDNumber : Number
 
   passwordMismatch = false;
 
@@ -84,7 +96,7 @@ export class AdminComponent implements OnInit {
   imageString : String
   file: File = null;
 
-  createRegisterForm(){
+  createForms(){
     this.registerForm = new FormGroup({
       firstname : new FormControl('', [Validators.required]),
       lastname : new FormControl('', [Validators.required]),
@@ -102,6 +114,16 @@ export class AdminComponent implements OnInit {
       companyLogo : new FormControl('', [Validators.required]),
       PIB : new FormControl('', [Validators.required, Validators.pattern('^[1-9][0-9]{8,8}$')]),
       registrationNumber : new FormControl('', [Validators.required, Validators.pattern('^[0-9]{1,}$')])
+    })
+
+    this.buyerForm = new FormGroup({
+      firstname : new FormControl('', [Validators.required]),
+      lastname : new FormControl('', [Validators.required]),
+      username : new FormControl('', [Validators.required]),
+      password : new FormControl('', [Validators.required, Validators.pattern('^[A-Z](?=.*[0-9])(?=.*[#?!@$%^&*-\\.]).{7,11}$|^[a-z](?=.*[A-Z])(?=.*[0-9])(?=.*[#?!@$%^&*-\\.]).{7,11}$')]),
+      confirmPassword : new FormControl('', [Validators.required, Validators.pattern('^[A-Z](?=.*[0-9])(?=.*[#?!@$%^&*-\\.]).{7,11}$|^[a-z](?=.*[A-Z])(?=.*[0-9])(?=.*[#?!@$%^&*-\\.]).{7,11}$')]),
+      phoneNumber : new FormControl('', [Validators.required]),
+      IDNumber : new FormControl('', [Validators.required])
     })
   }
 
@@ -170,5 +192,85 @@ export class AdminComponent implements OnInit {
 
     });
 
-   }
+  }
+
+  showActivation(){
+    this.activateCompany = true
+    this.addCompany = false
+    this.addBuyer = false
+    this.review = false
+    this.acceptCompany = false
+  }
+  showCompanies(){
+    this.activateCompany = false
+    this.addCompany = true
+    this.addBuyer = false
+    this.review = false
+    this.acceptCompany = false
+  }
+  showBuyer(){
+    this.activateCompany = false
+    this.addCompany = false
+    this.addBuyer = true
+    this.review = false
+    this.acceptCompany = false
+  }
+  showReview(){
+    this.activateCompany = false
+    this.addCompany = false
+    this.addBuyer = false
+    this.review = true
+    this.acceptCompany = false
+  }
+  showAcception(){
+    this.activateCompany = false
+    this.addCompany = false
+    this.addBuyer = false
+    this.review = false
+    this.acceptCompany = true
+  }
+
+  addNewBuyer(){
+    if(this.password != this.confirmPassword){
+      this.passwordMismatch = true;
+    }
+    else{
+      this.passwordMismatch = false
+      this.buyerService.addNewBuyer(this.username, this.password, this.firstname, this.lastname, this.phoneNumber, this.IDNumber, []).subscribe((res) => {
+        if(res['message'] == "buyer added"){
+          alert("Kupac uspesno dodat")
+        }
+        else{
+          alert("GRESKA")
+        }
+      })
+    }
+
+  }
+
+  activate(username){
+    this.service.activateCompany(username, true).subscribe((res) => {
+      if(res['message'] == 'activation changed'){
+        alert("activation changed")
+      }
+      else{
+        alert("GRESKA")
+      }
+    })
+  }
+  deactivate(username){
+    this.service.activateCompany(username, false).subscribe((res) => {
+      if(res['message'] == 'activation changed'){
+        alert("activation changed")
+      }
+      else{
+        alert("GRESKA")
+      }
+    })
+  }
+
+  logout(){
+    localStorage.removeItem('username')
+    this.router.navigate(['/adminLogin'])
+  }
 }

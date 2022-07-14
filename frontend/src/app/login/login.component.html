@@ -32,4 +32,32 @@
             </div>  
         </div>
     </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-8">
+            <table class="table">
+                <thead class="thead-dark">
+                    <th>Company</th>
+                    <th>Total amount</th>
+                    <th>PDV</th>
+                    <th>Articals</th>
+                    <th>Price with PDV</th>
+                    <th>Real price</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let comp of companies">
+                        <td>{{comp.companyName}}</td>
+                        <td>{{comp.dailyReports[0].totalAmount}}</td>
+                        <td>{{comp.dailyReports[0].totalAmountPDV.valueOf() - comp.dailyReports[0].totalAmount.valueOf()}}</td>
+                        <td>
+                            <ng-container *ngFor="let art of comp.bills[0].articals">
+                                {{art}}
+                            </ng-container>
+                        </td>
+                        <td>{{comp.bills[0].priceWithPDV}}</td>
+                        <td>{{comp.bills[0].realPrice}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

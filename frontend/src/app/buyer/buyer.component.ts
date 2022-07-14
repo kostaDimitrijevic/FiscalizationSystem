@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ArticalService } from '../artical.service';
 import { BuyerService } from '../buyer.service';
 import { CompanyService } from '../company.service';
@@ -13,7 +15,7 @@ import { Company } from '../models/company';
 })
 export class BuyerComponent implements OnInit {
 
-  constructor(private companyService : CompanyService, private buyerService : BuyerService, private articalService : ArticalService) { }
+  constructor(private companyService : CompanyService, private buyerService : BuyerService, private articalService : ArticalService, private router : Router) { }
 
   ngOnInit(): void {
     this.companyService.getCompanies().subscribe((companies : Company[]) => {
@@ -31,12 +33,30 @@ export class BuyerComponent implements OnInit {
   }
 
   isBills = false
+  isPromena = false
   isCompanies = true
   buyer : Buyer
   companies : Company[] = []
   articals : Artical[] = []
   searchStr = ""
   showBills = false
+
+  
+  changePassForm : FormGroup
+  password : String
+  confirmPassword : String
+  oldPassword : String
+  passwordMismatch = false
+  badPassword = false;
+
+
+  createForm(){
+    this.changePassForm = new FormGroup({
+      oldPassword : new FormControl('', [Validators.required]),
+      password : new FormControl('', [Validators.required, Validators.pattern('^[A-Z](?=.*[0-9])(?=.*[#?!@$%^&*-\\.]).{7,11}$|^[a-z](?=.*[A-Z])(?=.*[0-9])(?=.*[#?!@$%^&*-\\.]).{7,11}$')]),
+      confirmPassword : new FormControl('', [Validators.required, Validators.pattern('^[A-Z](?=.*[0-9])(?=.*[#?!@$%^&*-\\.]).{7,11}$|^[a-z](?=.*[A-Z])(?=.*[0-9])(?=.*[#?!@$%^&*-\\.]).{7,11}$')])
+    })
+  }
 
   searchByName(){
     if(this.searchStr != ""){
@@ -63,11 +83,48 @@ export class BuyerComponent implements OnInit {
 
   showCompanies(){
     this.isBills = false
+    this.isPromena = false
     this.isCompanies = true
   }
 
   showBill(){
     this.isBills = true
     this.isCompanies = false
+    this.isPromena = false
+  }
+  showChangePassword(){
+    this.isBills = false
+    this.isCompanies = false
+    this.isPromena = true
+  }
+
+  changePassword(){
+    if(this.buyer.password != this.oldPassword){
+      this.badPassword = true
+    }
+    else{
+      if(this.password != this.confirmPassword){
+        this.passwordMismatch = true
+      }
+      else{
+        this.badPassword = false
+        this.passwordMismatch = false
+        this.buyerService.changePassword(localStorage.getItem('username'), this.password).subscribe((res) => {
+          if(res['message'] == 'password changed'){
+            alert("Password changed successfully")
+            this.router.navigate['/']
+          }
+          else{
+            alert("GRESKA")
+          }
+        })
+      }
+
+    }
+  }
+
+  logout(){
+    localStorage.removeItem('username')
+    this.router.navigate(['/'])
   }
 }

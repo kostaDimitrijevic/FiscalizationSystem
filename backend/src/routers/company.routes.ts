@@ -69,4 +69,10 @@ companiesRouter.route('/getDailyReports').post(
 companiesRouter.route('/getCompanies').get(
     (req, res) => new CompanyController().getCompanies(req, res)
 )
+companiesRouter.route('/changePassword').post(
+    (req, res) => new CompanyController().changePassword(req, res)
+)
+companiesRouter.route('/activateCompany').post(
+    (req, res) => new CompanyController().activateCompany(req, res)
+)
 export default companiesRouter;

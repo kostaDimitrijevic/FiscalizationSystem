@@ -35,7 +35,7 @@ export class UserController{
                 let newCompany = new Company({firstname: req.body.firstname, lastname: req.body.lastname,
                     username : req.body.username, password : req.body.password, companyName : req.body.companyName, email : req.body.email,
                     country : req.body.country, zipCode : req.body.zipCode, PIB : req.body.PIB, registrationNumber : req.body.registrationNumber, 
-                    street : req.body.street, phone : req.body.phoneNumber, city : req.body.city, status : req.body.status, infoAddedStatus: false, companyLogoPath: 'companyLogos/' + req.body.username})
+                    street : req.body.street, phone : req.body.phoneNumber, city : req.body.city, status : req.body.status, active : true, infoAddedStatus: false, companyLogoPath: 'companyLogos/' + req.body.username})
                 
 
                 newCompany.save().then(com=>{
